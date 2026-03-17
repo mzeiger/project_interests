@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project Interests</title>
+
+<style>
+    body {
+        font-family: "Inter", Arial, sans-serif;
+        background: #f5f7fa;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    header {
+        background: #003366;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    header p {
+        margin-top: 10px;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        transform: translateY(-3px);
+    }
+
+    .card h3 {
+        margin-top: 0;
+        font-size: 1.2rem;
+        color: #003366;
+    }
+
+    .card input[type="checkbox"] {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        transform: scale(1.4);
+        cursor: pointer;
+    }
+
+    .submit-bar {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        padding: 15px 20px;
+        border-top: 1px solid #ccc;
+        text-align: right;
+    }
+
+    .submit-btn {
+        background: #D4AF37;
+        color: #003366;
+        border: none;
+        padding: 12px 24px;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s ease;
+    }
+
+    .submit-btn:hover {
+        background: #c19a2f;
+    }
+
+    .success-message {
+        background: #e6f7e6;
+        border-left: 5px solid #2e8b57;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        display: none; /* Show after submit */
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Project Interests</h1>
+    <p>Select the Kiwanis projects you’d like to support this year.</p>
+</header>
+
+<div class="container">
+
+    <!-- Success message placeholder -->
+    <div id="success" class="success-message">
+        ✔ Your project interests have been saved.
+    </div>
+
+    <form id="projectForm" method="POST" action="projectinterests">
+
+        <div class="grid">
+
+            <!-- Example card — repeat for each project -->
+            <label class="card">
+                <h3>Empty Bowls</h3>
+                <p>A community fundraiser supporting local food programs.</p>
+                <input type="checkbox" name="project[]" value="1">
+            </label>
+
+            <label class="card">
+                <h3>Harvest of Love</h3>
+                <p>Annual food drive supporting Tri-Lakes Cares.</p>
+                <input type="checkbox" name="project[]" value="2">
+            </label>
+
+            <label class="card">
+                <h3>K-News</h3>
+                <p>Monthly newsletter production and distribution.</p>
+                <input type="checkbox" name="project[]" value="3">
+            </label>
+
+            <!-- Add more cards dynamically from your backend -->
+
+        </div>
+
+        <div class="submit-bar">
+            <button class="submit-btn" type="submit">Save Interests</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    // Optional: Show success message after submit
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('saved') === '1') {
+        document.getElementById('success').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

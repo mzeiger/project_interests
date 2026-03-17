@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Monument Hill Kiwanis – New Member Application</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
+
+    <style>
+        body {
+            min-width: 320px;
+        }
+
+        #page-wrapper {
+            max-width: 1200px;
+            margin: 20px auto;
+            border: 2px solid #ccc;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            #page-wrapper {
+                margin: 10px;
+                padding: 10px;
+                border-width: 1px;
+            }
+        }
+
+        h1 {
+            font-size: clamp(28px, 5vw, 50px);
+        }
+
+        h2 {
+            font-size: clamp(20px, 3.5vw, 30px);
+        }
+
+        @media (max-width: 700px) {
+
+            .two-col,
+            .three-col,
+            .same-line {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            select[name="dob_month"],
+            select[name="dob_day"] {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .logo {
+            width: clamp(80px, 20vw, 150px);
+        }
+
+
+
+        h3 {
+            margin-top: 28px;
+            margin-bottom: 6px;
+            font-size: 18px;
+            padding-bottom: 3px;
+        }
+
+        p {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        input[type='text'],
+        input[type='email'],
+        input[type='tel'],
+        select {
+            width: 100%;
+            padding: 5px 6px;
+            margin-top: 3px;
+            border: 1px solid #555;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            width: 100%;
+            height: 95px;
+            padding: 6px;
+            border: 1px solid #555;
+            margin-top: 3px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .error-note {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        /* validation styling applied only after first submit attempt */
+        form.submitted input:invalid,
+        form.submitted select:invalid,
+        form.submitted textarea:invalid {
+            border: 2px solid red !important;
+        }
+
+        form.submitted input:valid,
+        form.submitted select:valid,
+        form.submitted textarea:valid {
+            border: 1px solid #ccc !important;
+        }
+
+        .two-col {
+            display: flex;
+            gap: 25px;
+            margin-top: 5px;
+        }
+
+        .two-col>div {
+            flex: 1;
+        }
+
+        .three-col {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+        }
+
+        .same-line {
+            display: flex;
+            gap: 20px;
+        }
+
+        .three-col>div {
+            flex: 1;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .checkbox-group {
+            border: 1px solid black;
+            padding: 5px;
+            display: inline-block;
+        }
+
+        .main-div {
+            padding: 20px;
+        }
+
+        .personal-section,
+        .business-section {
+            border: 1px solid black;
+            margin: 10px 0;
+        }
+
+        .submit-button {
+            text-align: center;
+        }
+
+        label:has(+ input[required]),
+        label:has(+ select[required]),
+        label:has(+ textarea[required]) {
+            position: relative;
+        }
+
+        label:has(+ input[required])::after,
+        label:has(+ select[required])::after,
+        label:has(+ textarea[required])::after {
+            content: " *";
+            color: red;
+            font-size: 0.8em;
+            vertical-align: super;
+        }
+
+        .form-section {
+            border: 1px solid black;
+            padding: 20px;
+            margin: 20px auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <script src="https://unpkg.com/imask"> </script>
+
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div class="form-section">
+            <form method="post" action="application.php" id="submitForm" novalidate>
+
+                <p style="text-align: center; font-size: 40px;">Membership Application</p>
+                <div class="main-div">
+                    <img src="mhklogo.png" alt="" width=15% />
+                    <h1 style="font-size: 50px;color:blue; text-align: center;">Monument Hill Kiwanis Club</h1>
+                    <h2 style="font-size: 30px;color: #0056d6;line-height: 200%;text-align: center;">Serving Youth and
+                        Our Community</h2>
+
+                    <p style="font-style: italic"><strong>Member Benefits:</strong> Fellowship, Support, Community
+                        Involvement, Youth Mentoring, Teamwork and Leadership Opportunities and a Wide Range of Indoor
+                        and
+                        Outdoor Projects</p>
+
+                    <p style="font-style: italic"><strong>Member Expectations:</strong> Early involvement in club
+                        activities
+                        including seasonal community services and fundraising projects.</p>
+
+                    <br />
+
+                    <p style="color:green;font-size: 25px;font-weight:bold; text-align: center;">Membership Information
+                    </p>
+
+                    <br />
+
+                    <div class="main-div personal-section">
+                        <h2 style="color:blue;font-weight:bold;line-height: 1; text-align: center;">*** Personal
+                            ***<br />
+
+                            <span style="color:red;font-size:0.8em;">*</span>
+                            <span style="color:black;font-size:medium;"> = required field</span>
+                        </h2>
+
+                        <div class="same-line">
+                            <div style="width:30%">
+                                <label for="first_name">First Name:</label>
+                                <input type="text" name="first_name" id="first_name" required>
+                            </div>
+                            <div style="width:40%">
+                                <label>Last Name:</label>
+                                <input type="text" name="last_name" required>
+                            </div>
+                        </div>
+
+                        <div class="same-line">
+                            <div>
+                                <label for="dob_month">Date of Birth (Month-Day only - no year):<span
+                                        style="color:red;font-size:0.8em;vertical-align:super;">*</span></label>
+                                <div class="two-col">
+                                    <div>
+                                        <select name="dob_month" required style="width:150%;">
+                                            <option value="">Month</option>
+                                            <option>January</option>
+                                            <option>February</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select name="dob_day" required style="width:110%;margin-left: 50%; ">
+                                            <option value="">Day</option>
+                                            <!-- 1–31 -->
+                                            <script>
+                                                for (let i = 1; i <= 31; i++) {
+                                                    document.write(`<option>${i}</option>`);
+                                                }
+                                            </script>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="width:40%;">
+                            <label>Spouse Name:</label>
+                            <input type="text" name="spouse">
+                        </div>
+
+                        <div style="width:50%">
+                            <label for="address">Address:</label>
+                            <input type="text" name="address" required>
+                        </div>
+
+                        <div class="same-line">
+                            <div style="width:50%;">
+                                <label for="city">City:</label>
+                                <input type="text" name="city" required>
+                            </div>
+                            <div style="width:10%;">
+                                <label for="state">State:</label>
+                                <input type="text" name="state" id="state" required>
+                            </div>
+                            <div style="width:20%;">
+                                <label for="zip">Zip:</label>
+                                <input type="text" name="zip" id="zip" required pattern="\d{5}"
+                                    title="5-digit ZIP code">
+                            </div>
+                        </div>
+
+                        <div class="same-line">
+                            <div style="width:30%;">
+                                <label for="home_phone">Home Phone (incl. Area Code):</label>
+                                <input type="tel" name="home_phone" id="home_phone" class="phone"
+                                    pattern="\d{3}-\d{3}-\d{4}" title="Format: 123-456-7890">
+                            </div>
+                            <div style="width:30%;">
+                                <label for="cell_phone">Cell Phone (incl. Area Code):</label>
+                                <input type="tel" name="cell_phone" id="cell_phone" class="phone"
+                                    pattern="\d{3}-\d{3}-\d{4}" title="Format: 123-456-7890">
+                            </div>
+                            <span style="color:red;font-size:0.8em;align-self: flex-end;">* At least one phone number is
+                                required.</span>
+                        </div>
+                        <p id="phone-note" class="error-note" style="display:none;margin-top:4px;">
+                            Please provide at least one phone number (home or cell).
+                        </p>
+
+                        <div style="width:45%;">
+                            <label for="home_email">Email:</label>
+                            <input type="email" name="home_email" id="home_email" required>
+                        </div>
+
+                        <div style="width:45%;">
+                            <label for="sponsor">Sponsor:</label>
+                            <input type="text" name="sponsor" required>
+                        </div>
+
+                    </div>
+                    <br />
+
+                    <div class="main-div business-section">
+                        <h2 style="color:blue;font-weight:bold;text-align: center;">*** Business ***</h2>
+
+                        <label for="business_name">Business Name:</label>
+                        <input type="text" name="business_name">
+
+                        <label for="job_title">Job Title:</label>
+                        <input type="text" name="job_title">
+
+                        <label for="business_address">Business Address:</label>
+                        <input type="text" name="business_address">
+
+                        <div class="two-col">
+                            <div>
+                                <label for="business_phone">Business Phone (incl. Area Code):</label>
+                                <input type="tel" name="business_phone" id="business_phone">
+                            </div>
+                            <div>
+                                <label for="business_email">Business Email:</label>
+                                <input type="email" name="business_email" id="business_email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="main-div">
+                        <h3>Biographical Summary</h3>
+                        <textarea name="bio"></textarea>
+
+                        <h3>Skills You Will Contribute</h3>
+                        <textarea name="skills"
+                            placeholder="e.g., Public Relations, IT, Website Design, Social Media, Accounting, Project Leadership"></textarea>
+
+                        <h3>How Did You Hear About Us?</h3>
+
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="saw_ads"> Seen our ads in local newspapers</label>
+                            <label><input type="checkbox" name="saw_website"> Seen our website</label>
+                            <label><input type="checkbox" name="saw_facebook"> Seen our Facebook page</label>
+                            <label><input type="checkbox" name="saw_friend"> Heard about us from a friend</label>
+                        </div>
+
+                    </div>
+                    <br />
+                    <br />
+                    <div class="submit-button">
+                        <button type="submit">Submit Application</button>
+                    </div>
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <script>
+        const formElement = document.getElementById('submitForm');
+        const homePhone = document.getElementById('home_phone');
+        const cellPhone = document.getElementById('cell_phone');
+
+        const phoneNote = document.getElementById('phone-note');
+        function validatePhones() {
+            const h = homePhone.value.trim();
+            const c = cellPhone.value.trim();
+            const msg = 'Please enter at least one phone number';
+            const fmt = /^\d{3}-\d{3}-\d{4}$/;
+
+            // format checks if a number is provided
+            if (h && !fmt.test(h)) {
+                homePhone.setCustomValidity('Phone must be ddd-ddd-dddd');
+            } else {
+                homePhone.setCustomValidity('');
+            }
+            if (c && !fmt.test(c)) {
+                cellPhone.setCustomValidity('Phone must be ddd-ddd-dddd');
+            } else {
+                cellPhone.setCustomValidity('');
+            }
+
+            if (!h && !c) {
+                homePhone.setCustomValidity(msg);
+                cellPhone.setCustomValidity(msg);
+                phoneNote.style.display = 'block';
+                return false;
+            }
+            phoneNote.style.display = 'none';
+            return true;
+        }
+
+        // clear custom message whenever user types
+        homePhone.addEventListener('input', validatePhones);
+        cellPhone.addEventListener('input', validatePhones);
+
+        formElement.addEventListener('submit', async function (event) {
+            // Note: with HTML validation enabled the submit event never fires when the
+            // form is invalid – the browser suppresses it. We add `novalidate` to the
+            // <form> so that our handler always runs and we can apply styling ourselves.
+
+            // mark that we've tried to submit so validation styles apply
+            if (!formElement.classList.contains('submitted')) {
+                formElement.classList.add('submitted');
+            }
+
+            // ensure the phone rule is honoured before doing the native check
+            if (!validatePhones() || !formElement.checkValidity()) {
+                event.preventDefault(); // stop submission
+                alert("Please fill out all required fields.");
+                return;
+            }
+
+            event.preventDefault(); // stop the submit
+            const formData = new FormData(this);
+            fetch('application.php', {
+                method: 'POST',
+                body: formData,
+            })
+                .then((r) => r.text())
+                .then((text) => {
+                    if (text == 'true') {
+                        handleSuccess(text);
+                    } else {
+                        handleError('ERROR: ' + text);
+                    }
+                })
+                .catch((err) => {
+                    handleError('ERROR: ' + err);
+                });
+        });
+    </script>
+
+    <script>
+        /* Dynamic URL for projects page */
+        function handleSuccess(text) {
+            const baseUrl = window.location.protocol + '//' + window.location.host + '/projectinterests';
+            Swal.fire({
+                icon: 'success',
+                title: 'Application Completed Successfully',
+                showConfirmButton: false,
+                showCancelButton: false,
+                html: `
+                            Your application has been submitted successfully! Next, please let us know which projects or events you're interested in by visiting the Projects page.<br/>
+                            <span style="color:red;">Note: You are already registered in the products page, so no need to sign up again there. Simply select your email from the "Email" dropdown.</span><br/>
+                            Click <a href="${baseUrl}" target="_blank">HERE</a> to go to the Projects page.
+                         `,
+            });
+        }
+    </script>
+
+    <script>
+        function handleError(error) {
+            errorText = '';
+
+            if (
+                error.startsWith(
+                    'ERROR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry'
+                )
+            ) {
+                errorText = 'Email already taken';
+            } else {
+                errorText = error;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: errorText,
+                confirmButtonText: 'Close',
+                showCancelButton: false,
+            });
+        }
+    </script>
+
+    <script>
+        IMask(document.getElementById('home_phone'), {
+            mask: '000-000-0000',
+        });
+
+        IMask(document.getElementById('cell_phone'), {
+            mask: '000-000-0000',
+        });
+
+        IMask(document.getElementById('business_phone'), {
+            mask: '000-000-0000',
+        });
+
+        IMask(document.getElementById('zip'), {
+            mask: '00000',
+        });
+
+        IMask(document.getElementById('state'), {
+            mask: 'aa',
+            prepare: function (str) {
+                return str.toUpperCase();
+            },
+        });
+
+        IMask(document.getElementById('home_email'), {
+            mask: /^[a-z0-9@._-]*$/,
+            prepare: (str) => str.toLowerCase(),
+        });
+
+        IMask(document.getElementById('business_email'), {
+            mask: /^[a-z0-9@._-]*$/,
+            prepare: (str) => str.toLowerCase(),
+        });
+    </script>
+
+    <script>
+        const daysInMonth = {
+            'January': 31,
+            'February': 29, // Allowing for leap years since we don't ask for the year
+            'March': 31,
+            'April': 30,
+            'May': 31,
+            'June': 30,
+            'July': 31,
+            'August': 31,
+            'September': 30,
+            'October': 31,
+            'November': 30,
+            'December': 31
+        };
+
+        const monthSelect = document.querySelector('select[name="dob_month"]');
+        const daySelect = document.querySelector('select[name="dob_day"]');
+
+        function updateDays() {
+            const selectedMonth = monthSelect.value;
+            const days = daysInMonth[selectedMonth] || 31;
+            daySelect.innerHTML = '<option value="">Day</option>';
+            for (let i = 1; i <= days; i++) {
+                daySelect.innerHTML += `<option>${i}</option>`;
+            }
+        }
+
+        monthSelect.addEventListener('change', updateDays);
+
+    </script>
+
+</body>
+
+</html>

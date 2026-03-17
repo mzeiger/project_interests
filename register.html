@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<!-- No longer used -->
+<html>
+
+<head>
+  <title>Registration</title>
+
+  <style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        border: 1px solid black;
+        padding: 10px;
+        margin-top: 5%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+
+    #outputFalse {
+        color:red;
+        font-size: larger;
+    }
+    #outputTrue {
+        color:green;
+        font-size: larger;
+    }
+
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Project Registration </h1>
+
+        <form action="register.php" method="post" id="registerForm">
+            <h3 style="text-align:center;">Enter your information below and then press the "Submit" button.</h3>
+            <table>
+                <tr><td>Enter Email:</td><td><input type="email" name="email" required/> </td></tr>
+                <tr><td>First Name:</td><td> <input type="text" name="fname" required/></td></tr>
+                <tr><td>Last Name:</td><td><input type="text" name="lname" required/></td></tr>
+                <tr><td colspan=2></td></tr>
+                <tr><td colspan=2 style="text-align: center"><button type="button" onclick="performRegistration()">Submit</button></td></tr>
+            </table>
+        </form>
+        <br/>
+        <div id="outputTrue"></div>
+        <div id="outputFalse"></div>
+
+        <p style="text-align:center;">Once your registration succeeds press
+        this <span style="color:blue">Go Back</span> button  <button onclick="history.back()">Go Back</button>
+        to return to the project selection page.<br/><br/>
+        <span style="color:red;">Make sure to refresh the project selection page when you go back to it.<br/>
+        Otherewise you will not see your email in the email selection dropdown.</span>
+        </p>
+
+    </div>
+
+
+
+  <script>
+
+     function performRegistration()  {
+         document.getElementById("outputFalse").innerHTML = "";
+         document.getElementById("outputTrue").innerHTML = "";
+         const formData = new FormData(document.getElementById("registerForm"));
+         fetch("register.php", {
+             method: "post",
+             body: formData
+         }).then(response => response.text())
+         .then(text=>{
+            if (text == "true") {
+                document.getElementById("outputTrue").innerHTML = "Registration succeeded";
+            } else if (text ==  "false") {
+                document.getElementById("outputFalse").innerHTML = "Email already exists";
+            } else {
+                 document.getElementById("outputFalse").innerHTML = text;
+            }
+         });
+     }
+
+  </script>
+
+</body>
+
+</html>

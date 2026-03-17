@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Applicant</title>
+
+    <style>
+        /* Ensure padding/borders are included in width calculations so things stay aligned at small widths */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            padding: 5px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            /* Prevent the layout from shrinking too small on narrow viewports */
+            width: clamp(320px, 40%, 1200px);
+        }
+
+        .skills,
+        .bio {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+            line-height: 1.5;
+            width: 100%;
+            overflow-wrap: break-word;
+        }
+
+        .not_found {
+            color: red;
+            font-size: 30pt;
+        }
+
+        #applicant_info>div {
+            width: 100%;
+            box-sizing: border-box;
+            overflow-x: auto;
+        }
+
+        .no-print {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .no-print label {
+            white-space: nowrap;
+        }
+
+        tr,
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        @media (max-width: 400px) {
+            body {
+                width: 100%;
+            }
+
+            table {
+                font-size: 14px;
+                overflow-x: auto;
+            }
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            @media print {
+                .page-break {
+                    page-break-before: always;
+                    break-before: page;
+                }
+            }
+
+            body {
+                width: 90%;
+            }
+
+
+        }
+
+        #print-button {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img src="../mhklogo.png" width="15%" />
+    </div>
+    <br />
+    <div class="no-print">
+        <label for="applicant_email">Select applicant's email: </label>
+        <select id="email_list" name="applicant_email" required style="width: 50%">
+            <option value="">-- Select your email --</option>
+        </select>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const response = await fetch("../retrieve_select_dropdown.php");
+                const optionsHtml = await response.text();
+                const selectElement = document.getElementById("email_list");
+                selectElement.innerHTML += optionsHtml;
+            } catch (error) {
+                console.error("Error loading dropdown options:", error);
+            }
+        });
+
+        document
+            .getElementById("email_list")
+            .addEventListener("change", async function () {
+                if (this.value !== "") {
+                    const email = this.value;
+
+                    const response = await fetch("../retrieve_applicant.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: "applicant_email=" + encodeURIComponent(email),
+                    });
+
+                    const message = await response.text();
+                    document.getElementById("applicant_info").innerHTML = message;
+
+                    const interestsResponse = await fetch("../showInterestByEmail.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: "email=" + encodeURIComponent(email),
+                    });
+                    const interestsMessage = await interestsResponse.text();
+                    document.getElementById("print-button").style.display = "inline-block";
+
+                    if (interestsMessage.trim() === "") {
+                        document.getElementById("applicant_interests").innerHTML = "<p>No interests found for this applicant.</p>";
+                    } else {
+                        document.getElementById("applicant_interests").innerHTML = interestsMessage;
+                    }
+                } else {
+                    document.getElementById("applicant_info").innerHTML = "";
+                    document.getElementById("applicant_interests").innerHTML = "";
+                    document.getElementById("print-button").style.display = "none";
+
+                }
+            });
+    </script>
+
+    <br />
+    <div style="display:flex; flex-direction: row; gap:20px; width:100%;">
+        <div id="applicant_info" style="width:100%;"></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div style="display:flex; flex-direction: row; gap:20px; width:100%;">
+        <div id="applicant_interests" style="width:100%;"></div>
+    </div>
+
+    <br />
+    <div class="no-print" style="display:flex;justify-content:center;">
+        <button id="print-button" onclick="window.print()">Print Page</button>
+    </div>
+
+
+</body>
+
+</html>

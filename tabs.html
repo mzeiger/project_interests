@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100 p-10">
+
+    <div class="bg-white rounded-lg shadow-md">
+        <div class="flex border-b">
+            <button class="tab-button p-4 font-semibold text-gray-600" onclick="openTab(event, 'tab1')">Tab 1</button>
+            <button class="tab-button p-4 font-semibold text-gray-600" onclick="openTab(event, 'tab2')">Tab 2</button>
+            <button class="tab-button p-4 font-semibold text-gray-600" onclick="openTab(event, 'tab3')">Tab 3</button>
+        </div>
+
+        <div id="tab1" class="tab-content active p-4">
+            <h2 class="text-xl font-bold">Content for Tab 1</h2>
+            <p>This is the content of the first tab.</p>
+        </div>
+        <div id="tab2" class="tab-content p-4">
+            <h2 class="text-xl font-bold">Content for Tab 2</h2>
+            <p>This is the content of the second tab.</p>
+        </div>
+        <div id="tab3" class="tab-content p-4">
+            <h2 class="text-xl font-bold">Content for Tab 3</h2>
+            <p>This is the content of the third tab.</p>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            var tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            var tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                button.classList.add('text-gray-600');
+            });
+
+            // Show the current tab content and add styling to the active tab button
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+        }
+    </script>
+</body>
+</html>

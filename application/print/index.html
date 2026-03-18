@@ -135,6 +135,18 @@
                 if (this.value !== "") {
                     const email = this.value;
 
+                    // First get the applicant's name and save it in the hidden div for use in the printout
+                    const nameMessage = await fetch("../retrieve_applicant_name.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: "applicant_email=" + encodeURIComponent(email),
+                    });
+                    const nameResponse = await nameMessage.text();
+                    //document.getElementById("saved_name").textContent = nameResponse;
+
+                    // Then get all the applicant information and display it in the "applicant_info" div
                     const response = await fetch("../retrieve_applicant.php", {
                         method: "POST",
                         headers: {
@@ -142,10 +154,10 @@
                         },
                         body: "applicant_email=" + encodeURIComponent(email),
                     });
-
                     const message = await response.text();
                     document.getElementById("applicant_info").innerHTML = message;
 
+                    // Then get all the applicant interests and display it in the "applicant_interests" div
                     const interestsResponse = await fetch("../showInterestByEmail.php", {
                         method: "POST",
                         headers: {
@@ -157,9 +169,15 @@
                     document.getElementById("print-button").style.display = "inline-block";
 
                     if (interestsMessage.trim() === "") {
-                        document.getElementById("applicant_interests").innerHTML = "<p>No interests found for this applicant.</p>";
+                        interestBlock = '<h1>Interests</h1>';
+                        name = `<span style="color:blue">${nameResponse}</span>`;
+                        interestBlock += `<h2>No interests found for ${name}</h2>`;
+                        document.getElementById("applicant_interests").innerHTML = interestBlock;
                     } else {
-                        document.getElementById("applicant_interests").innerHTML = interestsMessage;
+                        interestBlock = '<h1>Interests</h1>';
+                        interestBlock += `<h2>${nameResponse}</h2>`;
+                        interestBlock += interestsMessage;
+                        document.getElementById("applicant_interests").innerHTML = interestBlock;
                     }
                 } else {
                     document.getElementById("applicant_info").innerHTML = "";
@@ -186,7 +204,8 @@
         <button id="print-button" onclick="window.print()">Print Page</button>
     </div>
 
-
+    <!-- Hidden div to store the selected applicant's email for use in the printout -->
+    <div id="saved_name" style="display:none;"></div>
 </body>
 
 </html>

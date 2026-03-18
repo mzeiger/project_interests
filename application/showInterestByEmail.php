@@ -9,15 +9,14 @@ $query = $dbh->prepare($sql);
 $query->execute([":email" => $email]);
 $projects = $query->fetchAll(PDO::FETCH_ASSOC);
 if (count($projects) == 0) {
-    $txt = '<h1>Interests</h1>';
-    $txt .= '<p style="font-weight:bold;">No interests found for this applicant</p>';
-    echo $txt;
+    echo "";
     return;
 }
 
 $txt = "";
-$txt .= '<div>';
-$txt .= '<h1>Interests</h1>';
+//$txt .= '<div>';
+//$txt .= '<h1>Interests</h1>';
+//$txt .= sprintf('<h3>%s %s</h3>', $projects[0]['fname'], $projects[0]['lname']);
 
 $txt .= '<div>';
 $txt .= '<table>';

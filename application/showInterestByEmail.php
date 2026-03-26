@@ -4,7 +4,7 @@ require 'db_connect.php';
 
 $email = $_POST['email'];
 
-$sql = "select projectName, fname, lname, projectDescription from v_project_person where email = :email order by projectName";
+$sql = "select projectName, fname, lname, projectDescription from v_project_person where email = :email order by projectPosition";
 $query = $dbh->prepare($sql);
 $query->execute([":email" => $email]);
 $projects = $query->fetchAll(PDO::FETCH_ASSOC);

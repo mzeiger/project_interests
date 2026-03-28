@@ -4,7 +4,8 @@ $txt = "";
 
 require('db_connect.php');
 
-$email = $_POST['applicant_email'];
+//$email = $_POST['applicant_email'];
+$email = $_REQUEST['applicant_email'];
 
 $sql = "select * from application where home_email = :home_email";
 $query = $dbh->prepare($sql);

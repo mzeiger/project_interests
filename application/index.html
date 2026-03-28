@@ -248,7 +248,7 @@
                             </div>
                             <div style="width:40%">
                                 <label>Last Name:</label>
-                                <input type="text" name="last_name" required>
+                                <input type="text" name="last_name" id="last_name" required>
                             </div>
                         </div>
 
@@ -398,7 +398,6 @@
                     </div>
             </form>
         </div>
-
     </div>
 
 
@@ -480,8 +479,9 @@
 
     <script>
         /* Dynamic URL for projects page */
-        function handleSuccess(text) {
+        async function handleSuccess(text) {
             const baseUrl = window.location.protocol + '//' + window.location.host + '/projectinterests';
+            $result = send_email_to_vp();
             Swal.fire({
                 icon: 'success',
                 title: 'Application Completed Successfully',
@@ -494,6 +494,43 @@
                          `,
             });
         }
+    </script>
+
+    <script>
+        async function send_email_to_vp() {
+            // don't urlencode - caling a PHP
+            const first_name = (document.getElementById("first_name").value);
+            const last_name = (document.getElementById("last_name").value);
+            const full_name = (`${first_name} ${last_name}`);
+            const email = (document.getElementById("home_email").value);
+            const applicant_info = await get_applicant_info(email);
+
+            const response = await fetch('send_email_to_vp.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    name: full_name,
+                    email: email,
+                    applicantInfo: applicant_info
+                })
+            });
+
+            const result = await response.text();
+            return result;
+        }
+
+        async function get_applicant_info(email) {
+            const url = `retrieve_applicant.php?applicant_email=${email}`;
+            const response = await fetch(url, {
+                method: "GET"
+            });
+
+            const result = await response.text();
+            return result;
+        }
+
     </script>
 
     <script>

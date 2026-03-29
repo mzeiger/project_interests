@@ -3,14 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 27, 2026 at 11:02 AM
+-- Generation Time: Mar 29, 2026 at 03:23 PM
 -- Server version: 10.5.26-MariaDB-cll-lve
 -- PHP Version: 8.4.18
 
---
---
---
---
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -63,7 +59,9 @@ CREATE TABLE `application` (
 --
 
 INSERT INTO `application` (`id`, `first_name`, `last_name`, `dob_month`, `dob_day`, `spouse`, `address`, `city`, `state`, `zip`, `home_phone`, `cell_phone`, `home_email`, `sponsor`, `business_name`, `job_title`, `business_address`, `business_email`, `bio`, `skills`, `saw_ads`, `saw_website`, `application_date`) VALUES
-(2, 'Mark', 'Zeiger', 'April', 21, 'Diane', '2193 Red Edge Hts.', 'Colorado Springs', 'CO', '80921', '719-488-5934', '719-494-7718', 'mark.zeiger@gmail.com', 'Rich Rima', '', '', '', '', '', '', 0, 0, '2026-03-04 11:27:51');
+(2, 'Mark', 'Zeiger', 'April', 21, 'Diane', '2193 Red Edge Hts.', 'Colorado Springs', 'CO', '80921', '719-488-5934', '719-494-7718', 'mark.zeiger@gmail.com', 'Rich Rima', '', '', '', '', '', '', 0, 0, '2026-03-04 11:27:51'),
+(44, 'Diane', 'Zeiger', 'September', 14, 'Mark', '2193 Red Edge Hts.', 'Colorado Springs', 'CO', '80923', '719-488-5934', '719-494-6763', 'diane.zeiger@gmail.com', 'Mark Zeiger', 'The Craft Cottage', 'Owner', '25 Rifle Camp Rd, West Paterson, NJ 07424', 'diane.zeiger@gmail.com', 'National Credit Manager at Sanyo Business Systems for 24 years. Then owner of The Craft Cottage, a consignment shop selling crafts and party goods. Move to Colorado Springs in 2009. Ran antiques fair for Women\'s club.', 'Project leadership, accounting', 0, 0, '2026-03-28 14:53:00'),
+(57, 'Edward', 'Zeiger', 'June', 2, 'Sandra', '240 West End Ave. Ap', 'New York', 'NY', '10023', '212-580-8742', '917-613-3706', 'edward.zeiger88@verizon.net', 'Mark Zeiger', '', '', '', '', '', '', 0, 0, '2026-03-29 15:17:00');
 
 --
 -- Triggers `application`
@@ -82,6 +80,27 @@ CREATE TRIGGER `trg_insert_person` AFTER INSERT ON `application` FOR EACH ROW BE
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_notification`
+--
+
+DROP TABLE IF EXISTS `application_notification`;
+CREATE TABLE `application_notification` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `application_notification`
+--
+
+INSERT INTO `application_notification` (`id`, `name`, `email`) VALUES
+(1, 'Mark Zeiger', 'mark.zeiger@gmail.com'),
+(3, 'Zoe Zeiger', 'zm8032@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -128,7 +147,38 @@ CREATE TABLE `person` (
 
 INSERT INTO `person` (`id`, `email`, `lname`, `fname`, `pwd`) VALUES
 (65, 'mark.zeiger@gmail.com', 'Zeiger', 'Mark', ''),
-(66, 'zoe.zeiger@gmail.com', 'Zeiger', 'Zoe', '');
+(66, 'zoe.zeiger@gmail.com', 'Zeiger', 'Zoe', ''),
+(67, 'mark8@gmail.com', 'bbbb', 'bbb', '\"\"'),
+(68, 'jamesjones@comcast.net', 'Jones', 'James', '\"\"'),
+(69, 'fred@prehistoric.com', 'Flintstone', 'Fred', '\"\"'),
+(70, 'fred22@prehistoric.com', 'Flintstone', 'Fred', '\"\"'),
+(71, 'xxx@yyy.com', 'x', 'x', '\"\"'),
+(72, 'gary@aol.com', 'Calderaro', 'Gary', '\"\"'),
+(73, 'gary2@aol.com', 'Calderaro', 'Gary', '\"\"'),
+(74, 'gary4@aol.com', 'Calderaro', 'Gary', '\"\"'),
+(75, 'gary5@aol.com', 'Calderaro', 'Gary', '\"\"'),
+(76, 'mark27@gmail.com', 'x', 'x', '\"\"'),
+(77, 'diane.zeiger@gmail.com', 'Zeiger', 'Diane', '\"\"'),
+(78, 'diane.zeiger2@gmail.com', 'Zeiger', 'Diane', '\"\"'),
+(79, 'diane.zeiger5@gmail.com', 'Zeiger', 'Diane', '\"\"'),
+(80, 'diane.zeiger5555@gmail.com', 'Zeiger', 'Diane', '\"\"'),
+(81, 'phil@iowa.com', 'Strong', 'Phil ', '\"\"'),
+(82, 'phil2@iowa.com', 'Strong', 'Phil ', '\"\"'),
+(83, 'e@g.com', 'x', 'x', '\"\"'),
+(84, 'x@x.com', 't', 't', '\"\"'),
+(85, 'eee@ggg.xxx', 'eee', 'eee', '\"\"'),
+(86, 'eee2@ggg.xxx', 'eee', 'eee', '\"\"'),
+(87, 'yyyyy@ggggg.com', 'fff', 'fff', '\"\"'),
+(88, 'yyyyy3@ggggg.com', 'fff', 'fff', '\"\"'),
+(89, 'ggggggg@ggggg.ggg', 'iiii', 'iiii', '\"\"'),
+(90, 'billybob@movies.con', 'Thorton', 'Billy Bob', '\"\"'),
+(91, 'mary.gelb@comcast.net', 'Gelb', 'Mary', '\"\"'),
+(92, 'mary.gelb22@comcast.net', 'Gelb', 'Mary', '\"\"'),
+(93, 'mary.gelb33@comcast.net', 'Gelb', 'Mary', '\"\"'),
+(94, 'mary.gelb44@comcast.net', 'Gelb', 'Mary', '\"\"'),
+(95, 'ttubby@optonline.com', 'Tubby', 'Terry', '\"\"'),
+(96, 'rtyy@ccc.com', 'gffggfgf', 'fggdf', '\"\"'),
+(97, 'edward.zeiger88@verizon.net', 'Zeiger', 'Edward', '\"\"');
 
 --
 -- Triggers `person`
@@ -243,6 +293,13 @@ ALTER TABLE `application`
   ADD UNIQUE KEY `idx_email` (`home_email`);
 
 --
+-- Indexes for table `application_notification`
+--
+ALTER TABLE `application_notification`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_email` (`email`);
+
+--
 -- Indexes for table `interest`
 --
 ALTER TABLE `interest`
@@ -270,13 +327,19 @@ ALTER TABLE `project`
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT for table `application_notification`
+--
+ALTER TABLE `application_notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `project`
@@ -292,7 +355,7 @@ ALTER TABLE `project`
 DROP TABLE IF EXISTS `v_project_person`;
 
 DROP VIEW IF EXISTS `v_project_person`;
-CREATE VIEW `v_project_person`  AS SELECT `interest`.`personId` AS `interest_personId`, `interest`.`projectId` AS `interest_projectId`, `project`.`id` AS `projectId`, `project`.`projectName` AS `projectName`, `project`.`projectHead` AS `projectHead`, `project`.`estimatedTime` AS `estimatedTime`, `project`.`position` AS `projectPosition`, `project`.`projectDescription` AS `projectDescription`, `project`.`fullDescription` AS `fullDescription`, `person`.`id` AS `personId`, `person`.`email` AS `email`, `person`.`lname` AS `lname`, `person`.`fname` AS `fname`, `person`.`pwd` AS `pwd` FROM ((`interest` left join `project` on(`project`.`id` = `interest`.`projectId`)) left join `person` on(`interest`.`personId` = `person`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`monumen8`@`localhost` SQL SECURITY DEFINER VIEW `v_project_person`  AS SELECT `interest`.`personId` AS `interest_personId`, `interest`.`projectId` AS `interest_projectId`, `project`.`id` AS `projectId`, `project`.`projectName` AS `projectName`, `project`.`projectHead` AS `projectHead`, `project`.`estimatedTime` AS `estimatedTime`, `project`.`position` AS `projectPosition`, `project`.`projectDescription` AS `projectDescription`, `project`.`fullDescription` AS `fullDescription`, `person`.`id` AS `personId`, `person`.`email` AS `email`, `person`.`lname` AS `lname`, `person`.`fname` AS `fname`, `person`.`pwd` AS `pwd` FROM ((`interest` left join `project` on(`project`.`id` = `interest`.`projectId`)) left join `person` on(`interest`.`personId` = `person`.`id`)) ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

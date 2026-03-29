@@ -147,15 +147,15 @@ function doTheSend($vpEmail, $applicantName, $msg)
 {
     try {
         $to = $vpEmail;
-        //  echo $to . "\n";
+
         $now = new DateTime("now", new DateTimeZone("America/Denver"));
         $dt = $now->format('M d, Y H:i A');
         $subject = sprintf('An application has been submitted by %s on %s', $applicantName, $dt);
-        $header = "From:noreply-application@monumenthillkiwanis.org \r\n";
+        $header = "From:noreply-application@monumenthillkiwanis.org" . time() . "\r\n";
         $header .= "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html\r\n";
         $retval = mail($to, $subject, $msg, $header);
-        echo sprintf('Mail return value: %s', $retval);
+        //echo sprintf('Mail return value: %s', $retval);
     } catch (exception $ex) {
         echo $ex->getMessage();
     }

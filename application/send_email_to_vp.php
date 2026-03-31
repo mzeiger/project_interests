@@ -110,19 +110,17 @@ $headTxt = "<head>
 
 require 'db_connect.php';
 
-
 $applicantName = $_REQUEST['name'];
 $applicantEmail = $_REQUEST['email'];
 $applicantInfo = $_REQUEST['applicantInfo'];
 
 $applicantInfo = str_replace('</body>', '', $applicantInfo);
-$applicantInfo = $headTxt . $applicantInfo;
 
 $printButton = '<div class="no-print" style="display:flex;justify-content:center;">
         <button id="print-button" onclick="window.print()">Print Page</button>
     </div>';
 
-$applicantInfo .= '<br/>' . $applicantInfo . $printButton . '</body>';
+$applicantInfo = $headTxt . '<br/>' . $applicantInfo . $printButton . '</body>';
 
 $sql = "select name AS vpName, email AS vpEmail from application_notification";
 $query = $dbh->prepare($sql);
@@ -137,7 +135,7 @@ function sendEmail($applicantName, $applicantEmail, $vpName, $vpEmail, $applican
 {
     $txt = '';
     $txt .= sprintf('<h1>Hello %s at %s</h1>', $vpName, $vpEmail);
-    $txt .= sprintf('<h2>You have received an application from %s at %s</h2>', $applicantName, $applicantEmail);
+    $txt .= sprintf('<h2>An application has been submitted by %s at %s</h2>', $applicantName, $applicantEmail);
     $txt .= '<h2>Below is the application:</h2>';
     $txt .=   $applicantInfo;
     doTheSend($vpEmail, $applicantName, $txt);
@@ -149,7 +147,7 @@ function doTheSend($vpEmail, $applicantName, $msg)
         $to = $vpEmail;
 
         $now = new DateTime("now", new DateTimeZone("America/Denver"));
-        $dt = $now->format('M d, Y H:i A');
+        $dt = $now->format('M d, Y \a\t H:i A');
         $subject = sprintf('An application has been submitted by %s on %s', $applicantName, $dt);
         $header = "From:noreply-application@monumenthillkiwanis.org" . time() . "\r\n";
         $header .= "MIME-Version: 1.0\r\n";

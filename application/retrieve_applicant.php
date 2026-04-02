@@ -63,6 +63,24 @@ $txt .= '<br/>';
 $txt .= '<strong>Skills</strong><br/><br/>';
 $txt .= sprintf('<div class="skills">%s</div>', $skills);
 
+$heard_about = '';
+if ($row['saw_ads'] == 1) {
+    $heard_about .= 'Saw an ad<br>';
+}
+if ($row['saw_website'] == 1) {
+    $heard_about .= 'Saw website<br>';
+}
+if ($row['saw_facebook'] == 1) {
+    $heard_about .= 'Saw Facebook<br>';
+}
+if ($row['saw_friend'] == 1) {
+    $heard_about .= 'Heard from friend<br>';
+}
+if ($heard_about != '') {
+    $txt .= '<br/><strong>How did applicant hear about us</strong></br></br>';
+    $txt .= sprintf('<div style="border:solid 1px black;padding 3px;">%s</div>', $heard_about);
+}
+
 $txt .= '</div>'; // end of surround border
 // $txt .= '<div class="no-print" style="text-align: center;">';
 

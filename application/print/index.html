@@ -20,6 +20,7 @@
             text-align: center;
             margin-left: auto;
             margin-right: auto;
+            margin-top: 0px;
             /* Prevent the layout from shrinking too small on narrow viewports */
             width: clamp(320px, 40%, 1200px);
         }
@@ -92,8 +93,21 @@
                 }
             }
 
+
             body {
                 width: 90%;
+            }
+
+            @media print {
+                @page {
+                    size: letter portrait !important;
+                }
+
+                html,
+                body {
+                    max-width: 100% !important;
+                    overflow: visible !important;
+                }
             }
 
 

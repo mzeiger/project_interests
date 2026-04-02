@@ -12,6 +12,7 @@
     <style>
         body {
             min-width: 320px;
+            margin-top: 0px;
         }
 
         #page-wrapper {
@@ -198,6 +199,58 @@
             margin: 20px auto;
             width: 100%;
             box-sizing: border-box;
+        }
+
+        /* Slider CAPTCHA Styles */
+        #captcha-slider {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .slider-track {
+            position: relative;
+            width: 300px;
+            height: 50px;
+            background: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: grab;
+            border-radius: 25px;
+            transition: background 0.3s;
+            user-select: none;
+        }
+
+        .slider-handle.verified {
+            background: #28a745;
+            cursor: default;
+        }
+
+        .slider-track.verified {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        @media (max-width: 700px) {
+            .slider-track {
+                width: 250px;
+            }
         }
     </style>
 
@@ -393,6 +446,12 @@
                     </div>
                     <br />
                     <br />
+                    <div id="captcha-slider">
+                        <div class="slider-track">
+                            <div class="slider-handle" id="slider-handle">Slide to verify</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="captcha-verified" name="captcha_verified" value="false">
                     <div class="submit-button">
                         <button type="submit">Submit Application</button>
                     </div>
@@ -450,10 +509,32 @@
                 formElement.classList.add('submitted');
             }
 
-            // ensure the phone rule is honoured before doing the native check
-            if (!validatePhones() || !formElement.checkValidity()) {
-                event.preventDefault(); // stop submission
-                alert("Please fill out all required fields.");
+            // Check validation separately
+            const phoneValid = validatePhones();
+            const formValid = formElement.checkValidity();
+            const captchaValid = captchaVerified.value === 'true';
+
+            if (!phoneValid || !formValid || !captchaValid) {
+                event.preventDefault();
+
+                // If ONLY captcha is incomplete, show slider-specific SweetAlert
+                if (phoneValid && formValid && !captchaValid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Verification Required',
+                        text: 'Please complete the verification slider.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                // Otherwise, show generic validation error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Required Fields',
+                    text: 'Please fill out all required fields.',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
 
@@ -489,7 +570,7 @@
                 showCancelButton: false,
                 html: `
                             Your application has been submitted successfully! Next, please let us know which projects or events you're interested in by visiting the Projects page.<br/>
-                            <span style="color:red;">Note: You are already registered in the products page, so no need to sign up again there. Simply select your email from the "Email" dropdown.</span><br/>
+                            <span style="color:red;">Note: You are already registered in the projects page, so no need to sign up again there. Simply select your email from the "Email" dropdown.</span><br/>
                             Click <a href="${baseUrl}" target="_blank">HERE</a> to go to the Projects page.
                          `,
             });
@@ -621,6 +702,60 @@
 
         monthSelect.addEventListener('change', updateDays);
 
+    </script>
+
+    <script>
+        // Slider CAPTCHA functionality
+        const sliderHandle = document.getElementById('slider-handle');
+        const sliderTrack = document.querySelector('.slider-track');
+        const captchaVerified = document.getElementById('captcha-verified');
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+
+        sliderHandle.addEventListener('mousedown', startDrag);
+        sliderHandle.addEventListener('touchstart', startDrag, { passive: false });
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, { passive: false });
+
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+
+        function startDrag(e) {
+            if (sliderHandle.classList.contains('verified')) return;
+            isDragging = true;
+            startX = e.clientX || e.touches[0].clientX;
+            sliderHandle.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            const clientX = e.clientX || e.touches[0].clientX;
+            currentX = clientX - startX;
+            const maxX = sliderTrack.offsetWidth - sliderHandle.offsetWidth;
+            if (currentX < 0) currentX = 0;
+            if (currentX > maxX) currentX = maxX;
+            sliderHandle.style.left = currentX + 'px';
+            e.preventDefault();
+        }
+
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            sliderHandle.style.cursor = 'grab';
+            const maxX = sliderTrack.offsetWidth - sliderHandle.offsetWidth;
+            if (currentX >= maxX * 0.9) { // Allow some tolerance
+                sliderHandle.style.left = maxX + 'px';
+                sliderHandle.textContent = 'Verified';
+                sliderHandle.classList.add('verified');
+                sliderTrack.classList.add('verified');
+                captchaVerified.value = 'true';
+            } else {
+                sliderHandle.style.left = '0px';
+            }
+        }
     </script>
 
 </body>

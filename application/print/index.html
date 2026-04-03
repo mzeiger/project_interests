@@ -3,7 +3,10 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applicant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
         /* Ensure padding/borders are included in width calculations so things stay aligned at small widths */
@@ -12,32 +15,81 @@
         }
 
         body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            align-content: center;
-            padding: 5px;
+            justify-content: center;
             text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 0px;
-            /* Prevent the layout from shrinking too small on narrow viewports */
-            width: clamp(320px, 40%, 1200px);
+            width: clamp(320px, 90%, 1200px);
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: clamp(80px, 20vw, 150px);
+            margin-bottom: 20px;
+        }
+
+        .no-print {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .no-print label {
+            font-weight: 500;
+            font-size: 16px;
+            color: #555;
+        }
+
+        #email_list {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        #email_list:focus {
+            border-color: #3498db;
+            outline: none;
         }
 
         .skills,
         .bio {
-            border: 1px solid black;
-            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
             text-align: left;
-            line-height: 1.5;
+            line-height: 1.6;
             width: 100%;
             overflow-wrap: break-word;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .not_found {
-            color: red;
-            font-size: 30pt;
+            color: #e74c3c;
+            font-size: 24px;
+            font-weight: 500;
         }
 
         #applicant_info>div {
@@ -46,33 +98,55 @@
             overflow-x: auto;
         }
 
-        .no-print {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .no-print label {
-            white-space: nowrap;
-        }
-
         tr,
         td {
-            border: 1px solid black;
-            padding: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
         }
 
         table {
             width: 100%;
             max-width: 100%;
-            margin: 0 auto;
+            margin: 20px auto;
             border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        @media (max-width: 400px) {
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 500;
+        }
+
+        #print-button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-height: 44px;
+        }
+
+        #print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        @media (max-width: 700px) {
             body {
                 width: 100%;
+                padding: 10px;
+            }
+
+            .no-print {
+                padding: 15px;
             }
 
             table {
@@ -86,140 +160,163 @@
                 display: none !important;
             }
 
-            @media print {
-                .page-break {
-                    page-break-before: always;
-                    break-before: page;
-                }
+            .page-break {
+                page-break-before: always;
+                break-before: page;
             }
-
 
             body {
-                width: 90%;
+                background: white;
+                padding: 10px;
+                font-size: 12px;
             }
 
-            @media print {
-                @page {
-                    size: letter portrait !important;
-                }
-
-                html,
-                body {
-                    max-width: 100% !important;
-                    overflow: visible !important;
-                }
+            .container {
+                width: 100%;
+                margin: 0;
             }
 
+            table {
+                box-shadow: none;
+                border: 1px solid black;
+                font-size: 11px;
+            }
 
-        }
+            tr,
+            td {
+                padding: 4px;
+            }
 
-        #print-button {
-            display: none;
+            .skills,
+            .bio {
+                border: 1px solid black;
+                box-shadow: none;
+                padding: 5px;
+                font-size: 11px;
+            }
+
+            h1,
+            h2 {
+                font-size: 14px;
+                margin: 5px 0;
+            }
+
+            @page {
+                size: letter portrait !important;
+                margin: 0.5in;
+            }
+
+            html,
+            body {
+                max-width: 100% !important;
+                overflow: visible !important;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div>
-        <img src="../mhklogo.png" width="15%" />
-    </div>
-    <br />
-    <div class="no-print">
-        <label for="applicant_email">Select applicant's email: </label>
-        <select id="email_list" name="applicant_email" required style="width: 50%">
-            <option value="">-- Select your email --</option>
-        </select>
-    </div>
+    <div class="container">
+        <div>
+            <img src="../images/mhklogo.png" class="logo" />
+        </div>
+        <br />
+        <div class="no-print">
+            <label for="applicant_email">Select applicant's email: </label>
+            <select id="email_list" name="applicant_email" required>
+                <option value="">-- Select your email --</option>
+            </select>
+        </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-            try {
-                const response = await fetch("../retrieve_select_dropdown.php");
-                const optionsHtml = await response.text();
-                const selectElement = document.getElementById("email_list");
-                selectElement.innerHTML += optionsHtml;
-            } catch (error) {
-                console.error("Error loading dropdown options:", error);
-            }
-        });
-
-        document
-            .getElementById("email_list")
-            .addEventListener("change", async function () {
-                if (this.value !== "") {
-                    const email = this.value;
-
-                    // First get the applicant's name and save it in the hidden div for use in the printout
-                    const nameMessage = await fetch("../retrieve_applicant_name.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: "applicant_email=" + encodeURIComponent(email),
-                    });
-                    const nameResponse = await nameMessage.text();
-                    //document.getElementById("saved_name").textContent = nameResponse;
-
-                    // Then get all the applicant information and display it in the "applicant_info" div
-                    const response = await fetch("../retrieve_applicant.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: "applicant_email=" + encodeURIComponent(email),
-                    });
-                    const message = await response.text();
-                    document.getElementById("applicant_info").innerHTML = message;
-
-                    // Then get all the applicant interests and display it in the "applicant_interests" div
-                    const interestsResponse = await fetch("../showInterestByEmail.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: "email=" + encodeURIComponent(email),
-                    });
-                    const interestsMessage = await interestsResponse.text();
-                    document.getElementById("print-button").style.display = "inline-block";
-
-                    if (interestsMessage.trim() === "") {
-                        interestBlock = '<h1>Interests</h1>';
-                        name = `<span style="color:blue">${nameResponse}</span>`;
-                        interestBlock += `<h2>No interests found for ${name}</h2>`;
-                        document.getElementById("applicant_interests").innerHTML = interestBlock;
-                    } else {
-                        interestBlock = '<h1>Interests</h1>';
-                        interestBlock += `<h2>${nameResponse}</h2>`;
-                        interestBlock += interestsMessage;
-                        document.getElementById("applicant_interests").innerHTML = interestBlock;
-                    }
-                } else {
-                    document.getElementById("applicant_info").innerHTML = "";
-                    document.getElementById("applicant_interests").innerHTML = "";
-                    document.getElementById("print-button").style.display = "none";
-
+        <script>
+            document.addEventListener("DOMContentLoaded", async function () {
+                try {
+                    const response = await fetch("../retrieve_select_dropdown.php");
+                    const optionsHtml = await response.text();
+                    const selectElement = document.getElementById("email_list");
+                    selectElement.innerHTML += optionsHtml;
+                } catch (error) {
+                    console.error("Error loading dropdown options:", error);
                 }
             });
-    </script>
 
-    <br />
-    <div style="display:flex; flex-direction: row; gap:20px; width:100%;">
-        <div id="applicant_info" style="width:100%;"></div>
+            document
+                .getElementById("email_list")
+                .addEventListener("change", async function () {
+                    if (this.value !== "") {
+                        const email = this.value;
+
+                        // First get the applicant's name and save it in the hidden div for use in the printout
+                        const nameMessage = await fetch("../retrieve_applicant_name.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: "applicant_email=" + encodeURIComponent(email),
+                        });
+                        const nameResponse = await nameMessage.text();
+                        //document.getElementById("saved_name").textContent = nameResponse;
+
+                        // Then get all the applicant information and display it in the "applicant_info" div
+                        const response = await fetch("../retrieve_applicant.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: "applicant_email=" + encodeURIComponent(email),
+                        });
+                        const message = await response.text();
+                        document.getElementById("applicant_info").innerHTML = message;
+
+                        // Then get all the applicant interests and display it in the "applicant_interests" div
+                        const interestsResponse = await fetch("../showInterestByEmail.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: "email=" + encodeURIComponent(email),
+                        });
+                        const interestsMessage = await interestsResponse.text();
+                        document.getElementById("print-button").style.display = "inline-block";
+
+                        if (interestsMessage.trim() === "") {
+                            interestBlock = '<h1>Interests</h1>';
+                            name = `<span style="color:blue">${nameResponse}</span>`;
+                            interestBlock += `<h2>No interests found for ${name}</h2>`;
+                            document.getElementById("applicant_interests").innerHTML = interestBlock;
+                        } else {
+                            interestBlock = '<h1>Interests</h1>';
+                            interestBlock += `<h2>${nameResponse}</h2>`;
+                            interestBlock += interestsMessage;
+                            document.getElementById("applicant_interests").innerHTML = interestBlock;
+                        }
+                    } else {
+                        document.getElementById("applicant_info").innerHTML = "";
+                        document.getElementById("applicant_interests").innerHTML = "";
+                        document.getElementById("print-button").style.display = "none";
+
+                    }
+                });
+        </script>
+
+        <br />
+        <div style="display:flex; flex-direction: row; gap:20px; width:100%;">
+            <div id="applicant_info" style="width:100%;"></div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div style="display:flex; flex-direction: row; gap:20px; width:100%;">
+            <div id="applicant_interests" style="width:100%;"></div>
+        </div>
+
+        <br />
+        <div class="no-print" style="justify-content:center;">
+            <button id="print-button" onclick="window.print()">Print Page</button>
+        </div>
+
+        <!-- Hidden div to store the selected applicant's email for use in the printout -->
+        <div id="saved_name" style="display:none;"></div>
     </div>
-
-    <div class="page-break"></div>
-
-    <div style="display:flex; flex-direction: row; gap:20px; width:100%;">
-        <div id="applicant_interests" style="width:100%;"></div>
-    </div>
-
-    <br />
-    <div class="no-print" style="display:flex;justify-content:center;">
-        <button id="print-button" onclick="window.print()">Print Page</button>
-    </div>
-
-    <!-- Hidden div to store the selected applicant's email for use in the printout -->
-    <div id="saved_name" style="display:none;"></div>
-</body>
 
 </html>

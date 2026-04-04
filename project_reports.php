@@ -3,105 +3,89 @@
 <html>
 
 <head>
-  <title>Project Reports</title>
+    <title>Project Reports</title>
 
-  <style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-     table td, th {
-         border: 1px solid black;
-         padding: 5px;
-     }
-
-     .container {
-
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
-     margin-top: 2%
-     }
-
-     a:visited {
-        color: blue;
-     }
-
-     </style>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 
 <body>
 
-
-
-
     <form action="showProjectInterests.php" method="post" id="submitForm">
 
-    <?php
+        <?php
 
-      require("db_connect.php");
+        require("db_connect.php");
 
-      $txt = '';
-      $txt .= '<div class="container">';
-      $txt .= '<h2>Project Reports</h2>';
+        $txt = '';
+        $txt .= '<div class="container mt-5">';
+        $txt .= '<h2 class="text-center mb-4">Project Reports</h2>';
 
-      $sql = 'select projectName, id from project order by projectName';
-      $query = $dbh->prepare($sql);
-      $query->execute();
-      $projects = $query->fetchAll(PDO::FETCH_ASSOC);
+        $sql = 'select projectName, id from project order by projectName';
+        $query = $dbh->prepare($sql);
+        $query->execute();
+        $projects = $query->fetchAll(PDO::FETCH_ASSOC);
 
-      $txt .= '<p style="width:30%;text-align:center;">Select a project from the drop down list below to see people interested in the project.</p>';
-      $txt .= '<select name="projectId" id="projectList" style="height:5%;">' . "\n";
-      $txt .= '<option value="0">  -- Select a Project --  </option>' . "\n";
-      foreach($projects as $project) {
-          $txt .= sprintf('<option value="%s">%s</option>', $project['id'], $project['projectName']) . "\n";
-      }
-
-      $txt .= '</select>';
-      echo $txt;
-    ?>
-    <br/>
-  <!--  <button type="submit">Submit</button> -->
-</form>
-    <br/>
-    <div id="projectDiv"></div>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    //   document.getElementById('submitForm').addEventListener('submit', function (e) {
-    document.getElementById('projectList').addEventListener('change', function () {
-        //  e.preventDefault();
-        const value = this.value; //document.getElementById('projectList').value;
-
-        if (value === '0') {
-            //  e.preventDefault(); // stop the submit
-            //alert('Please select a project before submitting.');
-            document.getElementById('projectDiv').innerHTML = 'Please select a project';
-        } else {
-            const projectName = this.options[this.selectedIndex].text;
-            getTable(value, projectName);
+        $txt .= '<p class="text-center mb-3" style="max-width: 600px; margin: 0 auto;">Select a project from the drop down list below to see people interested in the project.</p>';
+        $txt .= '<div class="row justify-content-center mb-4">';
+        $txt .= '<div class="col-md-4">';
+        $txt .= '<select name="projectId" id="projectList" class="form-select">' . "\n";
+        $txt .= '<option value="0">  -- Select a Project --  </option>' . "\n";
+        foreach ($projects as $project) {
+            $txt .= sprintf('<option value="%s">%s</option>', $project['id'], $project['projectName']) . "\n";
         }
-    });
-});
+        $txt .= '</select>';
+        $txt .= '</div>';
+        $txt .= '</div>';
+        echo $txt;
+        ?>
+    </form>
+    <div id="projectDiv" class="container"></div>
 
-async function getTable(projectId, projectName) {
-    const response = await fetch('showProjectInterests.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'projectId=' + encodeURIComponent(projectId),
-    });
 
-    const result = await response.text();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            //   document.getElementById('submitForm').addEventListener('submit', function (e) {
+            document.getElementById('projectList').addEventListener('change', function() {
+                //  e.preventDefault();
+                const value = this.value; //document.getElementById('projectList').value;
 
-    if (result == 'false') {
-        document.getElementById('projectDiv').innerHTML =
-            'No one has shown interest in ' + projectName;
-    } else {
-        document.getElementById('projectDiv').innerHTML = result;
-    }
-}
-</script>
+                if (value === '0') {
+                    //  e.preventDefault(); // stop the submit
+                    //alert('Please select a project before submitting.');
+                    document.getElementById('projectDiv').innerHTML = '<div class="text-center fw-bold fs-5">Please select a project</div>';
+                } else {
+                    const projectName = this.options[this.selectedIndex].text;
+                    getTable(value, projectName);
+                }
+            });
+        });
+
+        async function getTable(projectId, projectName) {
+            const response = await fetch('showProjectInterests.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'projectId=' + encodeURIComponent(projectId),
+            });
+
+            const result = await response.text();
+
+            if (result == 'false') {
+                document.getElementById('projectDiv').innerHTML =
+                    '<div class="text-center fw-bold fs-5">No one has shown interest in ' + projectName + '</div>';
+            } else {
+                document.getElementById('projectDiv').innerHTML = result;
+            }
+        }
+    </script>
 
 </body>
 

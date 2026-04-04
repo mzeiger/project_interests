@@ -11,55 +11,60 @@
 
     <title>Kiwanis Projects</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
-        table td,
-        th {
-            border: 1px solid black;
-            padding: 5px;
+        body {
+            background-color: #f8f9fa;
         }
 
-        /* table th {
-            border: 1px solid black;
-            padding: 5px;
-        } */
+        .project-card {
+            margin-bottom: 2rem;
+        }
 
-        td.divider {
-            background-color: lightgray;
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-body {
+            padding: 0.75rem;
+        }
+
+        .divider {
+            background-color: #e9ecef;
             text-align: center;
             font-size: large;
             font-weight: bold;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
         }
 
-        p {
-            text-align: center;
+        .form-check-input {
+            width: 1.5em;
+            height: 1.5em;
+            margin-right: 0.75em;
+            border: 2px solid #333;
+            background-color: #fff;
+            accent-color: #007bff;
+            transform: scale(1.1);
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .limit_width60 {
-            width: 40%;
+        .form-check-input:checked {
+            box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .limit_width10 {
-            width: 10%;
+        .form-check-label {
+            font-weight: bold;
+            font-size: 1.1em;
+            vertical-align: middle;
         }
 
-        .limit_width5 {
-            width: 2%;
-        }
-
-        .limit_width2 {
-            width: 4%;
-        }
-
-        .container {
+        .form-check {
             display: flex;
-            justify-content: center;
             align-items: center;
-            align-content: center;
-            flex-direction: column;
-            width: 85%;
-            margin-left: 5%;
-            margin-right: 5%;
-
         }
     </style>
 
@@ -83,84 +88,80 @@
 
     ?>
 
-    <br />
-    <div class="container">
-        <h2 style="margin-top:2px;margin-bottom:2px;">Select Projects</h2>
-        <h3 style="margin-top:2px;margin-bottom:2px;">Choose the projects that interest you.</h3>
+    <div class="mt-5" style="width: 80%; margin: 0 auto;">
+        <h2 class="text-center mb-3">Select Projects</h2>
+        <h3 class="text-center mb-4">Choose the projects that interest you.</h3>
 
 
         <?php
         $txt = '<form action="updateProjects.php" method="post" id="submitForm">' . "\n";
-        $txt .= '<br/>';
 
-        $txt .= '<h4 style="width:40%;text-aligh:left;margin-botton:10px;">If you can\'t find your email in the ';
-        $txt .= '<span style="color:green;">Select Box</span> below then ';
+        $txt .= '<div class="alert alert-info mb-4" style="max-width: 600px; margin: 0 auto;">';
+        $txt .= '<h5>If you can\'t find your email in the <span class="text-success">Select Box</span> below then ';
+        $txt .= 'click this button <button type="button" class="btn btn-primary btn-sm" id="sweetAlerts">Register</button> to register.';
+        $txt .= ' Otherwise select your email, select your projects, and click on the <span class="text-success">Submit</span> button.</h5>';
+        $txt .= '</div>';
 
-        $txt .= 'click<br/>this button <button id="sweetAlerts">Register</button> to register.';
-        $txt .= ' Otherwise select your email, select your projects, and click on the ';
-        $txt .= '<span style="color:green;">Submit</span> button</h4>';
+        $txt .= '<div class="row mb-4 justify-content-center">';
+        $txt .= '<div class="col-md-4">';
         $txt .= selectBox($emails) . "\n";
-        $txt .= '<button type="submit" style="margin-left:5%;">Submit</button>' . "\n";
-        $txt .= '<button type="button" style="margin-left:10%;" onclick="projectReports()">' . "\n";
-        $txt .= 'Go to Report\'s Screen' . "\n";
-        $txt .= '</button>';
+        $txt .= '</div>';
+        $txt .= '<div class="col-md-8 d-flex align-items-center">';
+        $txt .= '<button type="submit" class="btn btn-success me-3">Submit</button>' . "\n";
+        $txt .= '<button type="button" class="btn btn-secondary me-3" onclick="projectReports()">Go to Report\'s Screen</button>' . "\n";
+        $txt .= '<a href="projectinterestinstructions.html" class="btn btn-link" onclick="openInstructions(event)">View Instructions</a>';
+        $txt .= '</div>';
+        $txt .= '</div>';
 
-        $txt .= '<a href="projectinterestinstructions.html" style="margin-left:15%;" ';
-        $txt .= 'onclick="openInstructions(event)">View Instructions</a>';
-
-
-        $txt .= "<br/><br/>" . "\n";
-        $txt .= "<div>\n";
-        $txt .= "<table>\n";
-        $txt .= "<tr><th></th><th>Project</th><th>Project Manager</th><th>Estimated Time</th><th>Description</th><th>Full<br/>Description</th></tr>\n";
+        $txt .= '<div class="row">' . "\n";
 
         foreach ($projects as $project) {
 
             if ($project['divider'] == 1) {
-                $txt .= sprintf('<tr><td colspan="6" class="divider">%s</td></tr>', $project['projectName']);
+                $txt .= '<div class="col-12 divider">' . $project['projectName'] . '</div>';
             } else {
-                $txt .= '<tr>';
-                $txt .= '<td class="limit_width5">';
-                $txt .=  checkbox($project);
-                $txt .= '</td>';
-                $txt .= sprintf('<td class="limit_width10">%s</td>', $project['projectName']);
-                $txt .= sprintf('<td class="limit_width10">%s</td>', $project['projectHead']);
-                $txt .= sprintf('<td class="limit_width10">%s</td>', $project['estimatedTime']);
-                $txt .= sprintf('<td class="limit_width60">%s</td>', $project['projectDescription']);
-                if (trim($project['fullDescription']) == "") {
-                    $txt .= '<td></td>';
-                } else {
-                    $txt .= sprintf('<td class="limit_width2"><button type="button" class="openPopup" data-id="%s">Full Description</button></td>', $project['id']);
+                $txt .= '<div class="col-md-6 col-lg-3">';
+                $txt .= '<div class="card project-card h-100">';
+                $txt .= '<div class="card-body">';
+                $txt .= '<div class="form-check mb-2">';
+                $txt .= checkbox($project);
+                $txt .= '<label class="form-check-label" for="cb-' . $project['id'] . '">' . $project['projectName'] . '</label>';
+                $txt .= '</div>';
+                $txt .= '<p class="card-text"><strong>Manager:</strong> ' . $project['projectHead'] . '</p>';
+                $txt .= '<p class="card-text"><strong>Estimated Time:</strong> ' . $project['estimatedTime'] . '</p>';
+                $txt .= '<p class="card-text"><strong>Description:</strong> ' . $project['projectDescription'] . '</p>';
+                if (trim($project['fullDescription']) != "") {
+                    $txt .= '<button type="button" class="btn btn-info btn-sm openPopup" data-id="' . $project['id'] . '">Full Description</button>';
                 }
-                $txt .= "</tr>\n";
+                $txt .= '</div>';
+                $txt .= '</div>';
+                $txt .= '</div>';
             }
         }
 
-        $txt .= "</table>\n";
+        $txt .= '</div>' . "\n";
 
-        $txt .= "</form>\n";
-        $txt .= "</div>\n";
+        $txt .= '</form>' . "\n";
         echo $txt;
 
 
         function checkbox($proj): string
         {
-            $rv = "";
-            $rv .= '<input type="checkbox" class="projectCheckbox"';
+            $rv = '<input type="checkbox" class="form-check-input projectCheckbox"';
             $rv .= ' name="items[]"';
-            $rv .= ' value=' . '"' .  $proj['projectName'] . ':' . $proj['id'] . '"';
-            $rv .= ' id=' . '"' . 'cb-' . $proj['id'] . '"';
+            $rv .= ' value="' . $proj['projectName'] . ':' . $proj['id'] . '"';
+            $rv .= ' id="cb-' . $proj['id'] . '"';
+            $rv .= ' title="Select to show interest"';
             $rv .= '>';
             return $rv;
         }
 
         function selectBox($emails): string
         {
-            $rv = "";
-            $rv .= '<select id="email_list" name="email_list" onchange="handleEmailSelection(this.value)"   style="width:20%;">';
+            $rv = '<select id="email_list" name="email_list" class="form-select" onchange="handleEmailSelection(this.value)">';
             $rv .= '<option value=""> -- Select your email -- </option>';
             foreach ($emails as $email) {
-                $rv .= '<option value="' . $email['id'] . ":" . $email['email'] .  '">' . $email['email']  . '</option>' . "\n";
+                $rv .= '<option value="' . $email['id'] . ':' . $email['email'] . '">' . $email['email'] . '</option>' . "\n";
             }
             $rv .= '</select>';
             return $rv;
@@ -277,6 +278,7 @@
                     showCancelButton: true,
                     confirmButtonText: 'Submit',
                     cancelButtonText: 'Cancel',
+                    allowOutsideClick: false,
 
                     // ? THIS is the key: run fetch here and return false to keep dialog open
                     preConfirm: () => {

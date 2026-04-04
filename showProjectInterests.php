@@ -14,19 +14,24 @@ if ($rows == false) {
     return;
 }
 
-$txt = '<div style="text-align:center;">';
-$txt .= '<p style="margin-top:2px;margin-bottom:2px;">' . 'Project: <span style="font-weight:bold;">' . $rows[0]['projectName'] . '</span></p>';
-$txt .= '<p style="margin-top:2px;margin-bottom:2px;">' . 'Project Head: ' . $rows[0]['projectHead'] . '</p>';
-$txt .= '<br/><br/>';
-$txt .= '<span style="text-align:center;">People interested in this project</span>';
-$txt .= '<table>';
+$txt = '<div class="text-center mb-4">';
+$txt .= '<h4>Project: <span class="fw-bold">' . $rows[0]['projectName'] . '</span></h4>';
+$txt .= '<p>Project Head: ' . $rows[0]['projectHead'] . '</p>';
+$txt .= '</div>';
+
+$txt .= '<h5 class="text-center mb-3">People interested in this project</h5>';
+$txt .= '<div class="table-responsive" style="max-width: 600px; margin: 0 auto;">';
+$txt .= '<table class="table table-striped table-bordered">';
+$txt .= '<thead class="table-dark">';
 $txt .= '<tr><th>Name</th><th>Email</th></tr>';
+$txt .= '</thead>';
+$txt .= '<tbody>';
 foreach ($rows as $row) {
-    // fname + lname  projectName head
     $name = $row['fname'] . ' ' . $row['lname'];
-    $email =  sprintf('<a href="mailto:%s">%s</a>', $row['email'], $row['email']);
-    $txt .= sprintf('<tr><td>%s</td><td>%s</td></tr>', $name,  $email);
+    $email = sprintf('<a href="mailto:%s">%s</a>', $row['email'], $row['email']);
+    $txt .= sprintf('<tr><td>%s</td><td>%s</td></tr>', $name, $email);
 }
+$txt .= '</tbody>';
 $txt .= '</table>';
 $txt .= '</div>';
 echo $txt;

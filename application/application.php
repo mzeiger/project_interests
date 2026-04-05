@@ -53,13 +53,7 @@ try {
 
 
 
-    $sql = "INSERT INTO `application`(`first_name`, `last_name`, `dob_month`, `dob_day`, `spouse`, `address`, `city`, `state`, `zip`,
-   `home_phone`, `cell_phone`, `home_email`, `sponsor`, `business_name`, `job_title`, `business_address`, `business_email`, `bio`,
-   `skills`, `saw_ads`, `saw_website`, `saw_facebook`, `saw_friend`) VALUES (:first_name, :last_name, :dob_month, :dob_day, :spouse, :address, :city,
-    :state, :zip, :home_phone, :cell_phone, :home_email , :sponsor, :business_name, :job_title, :business_address, :business_email, :bio,
-   :skills, :saw_ads, :saw_website, :saw_facebook, :saw_friend)";
-
-    $query = $dbh->prepare($sql);
+    $original_email = $post['original_email'] ?? "";
 
     $ary = [
         ":first_name" => $first_name,
@@ -87,7 +81,31 @@ try {
         ":saw_friend" => $saw_friend
     ];
 
-    $query->execute($ary);
+    if ($original_email !== "") {
+        $sql = "UPDATE `application` SET `first_name`=:first_name, `last_name`=:last_name, `dob_month`=:dob_month, `dob_day`=:dob_day, `spouse`=:spouse, `address`=:address, `city`=:city, `state`=:state, `zip`=:zip, `home_phone`=:home_phone, `cell_phone`=:cell_phone, `home_email`=:home_email , `sponsor`=:sponsor, `business_name`=:business_name, `job_title`=:job_title, `business_address`=:business_address, `business_email`=:business_email, `bio`=:bio, `skills`=:skills, `saw_ads`=:saw_ads, `saw_website`=:saw_website, `saw_facebook`=:saw_facebook, `saw_friend`=:saw_friend WHERE `home_email`=:original_email";
+        $ary[":original_email"] = $original_email;
+        $query = $dbh->prepare($sql);
+        $query->execute($ary);
+
+        if ($original_email !== $home_email) {
+            try {
+                $sql_update_email = "UPDATE project_person SET email = :new_email WHERE email = :old_email";
+                $query_email = $dbh->prepare($sql_update_email);
+                $query_email->execute([':new_email' => $home_email, ':old_email' => $original_email]);
+            } catch (Exception $e) {
+                // ignore if project_person does not exist or fails
+            }
+        }
+    } else {
+        $sql = "INSERT INTO `application`(`first_name`, `last_name`, `dob_month`, `dob_day`, `spouse`, `address`, `city`, `state`, `zip`,
+       `home_phone`, `cell_phone`, `home_email`, `sponsor`, `business_name`, `job_title`, `business_address`, `business_email`, `bio`,
+       `skills`, `saw_ads`, `saw_website`, `saw_facebook`, `saw_friend`) VALUES (:first_name, :last_name, :dob_month, :dob_day, :spouse, :address, :city,
+        :state, :zip, :home_phone, :cell_phone, :home_email , :sponsor, :business_name, :job_title, :business_address, :business_email, :bio,
+       :skills, :saw_ads, :saw_website, :saw_facebook, :saw_friend)";
+
+        $query = $dbh->prepare($sql);
+        $query->execute($ary);
+    }
 
     echo "true";
 } catch (Exception $e) {

@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monument Hill Kiwanis – New Member Application</title>
-    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     </script>
@@ -349,8 +348,12 @@
     <div id="page-wrapper">
         <div class="form-section">
             <form method="post" action="application.php" id="submitForm" novalidate>
+                <input type="hidden" name="original_email" id="original_email" value="">
 
                 <p class="membership-title">Membership Application</p>
+                <div id="edit-banner" style="display:none; text-align:center; background-color:#f1c40f; color:#fff; padding:10px; border-radius:8px; font-weight:bold; font-size:20px; margin-bottom:20px;">
+                    Editing this application
+                </div>
                 <div class="main-div">
                     <img src="mhklogo.png" alt="" class="logo" />
                     <h1>Monument Hill Kiwanis Club</h1>
@@ -843,9 +846,65 @@
     </script>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/projectinterests/application/sw.js');
-        }
+        document.addEventListener("DOMContentLoaded", async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            if (email) {
+                document.getElementById('original_email').value = email;
+                
+                try {
+                    const res = await fetch(`get_applicant_data.php?email=${encodeURIComponent(email)}`);
+                    const data = await res.json();
+                    if (data) {
+                        document.querySelector('.membership-title').innerText = "Edit Membership Application";
+                        document.getElementById('edit-banner').style.display = "block";
+                        document.querySelector('.submit-button button').innerText = "Update Application";
+
+                        document.getElementById('first_name').value = data.first_name || '';
+                        document.getElementById('last_name').value = data.last_name || '';
+                        
+                        const dobMonth = document.querySelector('select[name="dob_month"]');
+                        dobMonth.value = data.dob_month || '';
+                        updateDays();
+                        document.querySelector('select[name="dob_day"]').value = data.dob_day || '';
+
+                        document.querySelector('input[name="spouse"]').value = data.spouse || '';
+                        document.querySelector('input[name="address"]').value = data.address || '';
+                        document.querySelector('input[name="city"]').value = data.city || '';
+                        
+                        const setValue = (selector, val) => {
+                            const el = document.querySelector(selector);
+                            if (el && val) {
+                                el.value = val;
+                                el.dispatchEvent(new Event('input', { bubbles: true }));
+                            }
+                        };
+                        
+                        setValue('#state', data.state || 'CO');
+                        setValue('#zip', data.zip);
+                        setValue('#home_phone', data.home_phone);
+                        setValue('#cell_phone', data.cell_phone);
+                        setValue('#home_email', data.home_email);
+                        setValue('input[name="sponsor"]', data.sponsor);
+                        setValue('input[name="business_name"]', data.business_name);
+                        setValue('input[name="job_title"]', data.job_title);
+                        setValue('input[name="business_address"]', data.business_address);
+                        setValue('#business_phone', data.business_phone); 
+                        setValue('#business_email', data.business_email);
+                        
+                        setValue('textarea[name="bio"]', data.bio);
+                        setValue('textarea[name="skills"]', data.skills);
+
+                        document.querySelector('input[name="saw_ads"]').checked = (data.saw_ads == 1);
+                        document.querySelector('input[name="saw_website"]').checked = (data.saw_website == 1);
+                        document.querySelector('input[name="saw_facebook"]').checked = (data.saw_facebook == 1);
+                        document.querySelector('input[name="saw_friend"]').checked = (data.saw_friend == 1);
+                    }
+                } catch (e) {
+                    console.error("Error fetching applicant data: ", e);
+                }
+            }
+        });
     </script>
 
 </body>

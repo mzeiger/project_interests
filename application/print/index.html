@@ -121,7 +121,8 @@
             font-weight: 500;
         }
 
-        #print-button {
+        #print-button,
+        #edit-button {
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
@@ -134,7 +135,8 @@
             min-height: 44px;
         }
 
-        #print-button:hover {
+        #print-button:hover,
+        #edit-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
@@ -278,6 +280,7 @@
                         });
                         const interestsMessage = await interestsResponse.text();
                         document.getElementById("print-button").style.display = "inline-block";
+                        document.getElementById("edit-button").style.display = "inline-block";
 
                         if (interestsMessage.trim() === "") {
                             interestBlock = '<h1>Interests</h1>';
@@ -294,6 +297,7 @@
                         document.getElementById("applicant_info").innerHTML = "";
                         document.getElementById("applicant_interests").innerHTML = "";
                         document.getElementById("print-button").style.display = "none";
+                        document.getElementById("edit-button").style.display = "none";
 
                     }
                 });
@@ -311,9 +315,19 @@
         </div>
 
         <br />
-        <div class="no-print" style="justify-content:center;">
+        <div class="no-print" style="justify-content:center; flex-direction:row; gap: 15px;">
             <button id="print-button" onclick="window.print()">Print Page</button>
+            <button id="edit-button" style="display:none;" onclick="editApplication()">Edit Application</button>
         </div>
+
+        <script>
+            function editApplication() {
+                const email = document.getElementById("email_list").value;
+                if (email) {
+                    window.location.href = `../index.html?email=${encodeURIComponent(email)}`;
+                }
+            }
+        </script>
 
         <!-- Hidden div to store the selected applicant's email for use in the printout -->
         <div id="saved_name" style="display:none;"></div>

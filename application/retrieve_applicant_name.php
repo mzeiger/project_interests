@@ -8,5 +8,8 @@ $sql = "select first_name, last_name from application where home_email = :home_e
 $query = $dbh->prepare($sql);
 $query->execute([":home_email" => $email]);
 $rows = $query->fetchAll(PDO::FETCH_ASSOC);
-$fullName = sprintf('%s %s', $rows[0]['first_name'], $rows[0]['last_name']);
+$fullName = sprintf('%s %s', 
+    htmlspecialchars($rows[0]['first_name'], ENT_QUOTES, 'UTF-8'), 
+    htmlspecialchars($rows[0]['last_name'], ENT_QUOTES, 'UTF-8')
+);
 echo $fullName;

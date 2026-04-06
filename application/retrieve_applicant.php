@@ -20,18 +20,27 @@ if (empty($rows)) {
 
 $row = $rows[0];
 
+// Sanitize all database fields to prevent HTML/script injection (XSS)
+foreach ($row as $key => $value) {
+    if (is_string($value)) {
+        $row[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    }
+}
+
 $bio = "";
-if (trim($row['bio']) == '') {
+if (trim($row['bio'] ?? '') == '') {
     $bio = "None supplied";
 } else {
-    $bio = $row['bio'];
+    // Retain line breaks for visual formatting safely
+    $bio = nl2br($row['bio']);
 }
 
 $skills = "";
-if (trim($row['skills']) == '') {
+if (trim($row['skills'] ?? '') == '') {
     $skills = "None supplied";
 } else {
-    $skills = $row['skills'];
+    // Retain line breaks for visual formatting safely
+    $skills = nl2br($row['skills']);
 }
 
 //$txt .= '<div style="border:1px solid blue;padding:5px;">';
@@ -77,8 +86,8 @@ if ($row['saw_friend'] == 1) {
     $heard_about .= 'Heard from friend<br>';
 }
 if ($heard_about != '') {
-    $txt .= '<br/><strong>How did applicant hear about us</strong></br></br>';
-    $txt .= sprintf('<div style="border:solid 1px black;padding 3px;">%s</div>', $heard_about);
+    $txt .= '<br/><strong>How did applicant hear about us</strong><br/><br/>';
+    $txt .= sprintf('<div class="heard_about">%s</div>', $heard_about);
 }
 
 $txt .= '</div>'; // end of surround border

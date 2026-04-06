@@ -21,7 +21,9 @@ $txt = "";
 $txt .= '<div>';
 $txt .= '<table>';
 foreach ($projects as $project) {
-    $txt .= sprintf('<tr><td>%s</td ><td>%s</td></tr>', $project['projectName'], $project['projectDescription']);
+    $p_name = htmlspecialchars($project['projectName'], ENT_QUOTES, 'UTF-8');
+    $p_desc = htmlspecialchars($project['projectDescription'], ENT_QUOTES, 'UTF-8');
+    $txt .= sprintf('<tr><td>%s</td ><td>%s</td></tr>', $p_name, $p_desc);
 }
 $txt .= '</table>';
 $txt .= '</div>';

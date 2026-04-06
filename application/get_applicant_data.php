@@ -1,7 +1,7 @@
 <?php
 require('db_connect.php');
 
-$email = $_GET['email'] ?? '';
+$email = $_POST['applicant_email'] ?? '';
 
 if (!$email) {
     echo json_encode(null);

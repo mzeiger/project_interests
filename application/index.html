@@ -690,9 +690,14 @@
         }
 
         async function get_applicant_info(email) {
-            const url = `retrieve_applicant.php?applicant_email=${email}`;
-            const response = await fetch(url, {
-                method: "GET"
+            const response = await fetch('retrieve_applicant.php', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    applicant_email: email
+                })
             });
 
             const result = await response.text();
@@ -848,12 +853,26 @@
     <script>
         document.addEventListener("DOMContentLoaded", async function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const email = urlParams.get('email');
+            let email = urlParams.get('email');
+            
+            if (!email && sessionStorage.getItem("edit_applicant_email")) {
+                email = sessionStorage.getItem("edit_applicant_email");
+                sessionStorage.removeItem("edit_applicant_email");
+            }
+            
             if (email) {
                 document.getElementById('original_email').value = email;
                 
                 try {
-                    const res = await fetch(`get_applicant_data.php?email=${encodeURIComponent(email)}`);
+                    const res = await fetch(`get_applicant_data.php`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            applicant_email: email
+                        })
+                    });
                     const data = await res.json();
                     if (data) {
                         document.querySelector('.membership-title').innerText = "Edit Membership Application";

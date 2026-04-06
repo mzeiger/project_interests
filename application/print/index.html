@@ -74,7 +74,8 @@
         }
 
         .skills,
-        .bio {
+        .bio,
+        .heard_about {
             border: 2px solid #ddd;
             border-radius: 8px;
             padding: 15px;
@@ -190,7 +191,8 @@
             }
 
             .skills,
-            .bio {
+            .bio,
+            .heard_about {
                 border: 1px solid black;
                 box-shadow: none;
                 padding: 5px;
@@ -324,7 +326,8 @@
             function editApplication() {
                 const email = document.getElementById("email_list").value;
                 if (email) {
-                    window.location.href = `../index.html?email=${encodeURIComponent(email)}`;
+                    sessionStorage.setItem("edit_applicant_email", email);
+                    window.location.href = `../index.html`;
                 }
             }
         </script>

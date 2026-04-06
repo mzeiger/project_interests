@@ -7,7 +7,8 @@
     $emails = $query->fetchAll(PDO::FETCH_ASSOC);
     $rv = "";
     foreach ($emails as $email) {
-        $rv .= '<option value="' . $email['home_email'] .  '">' . $email['home_email']  . '</option>' . " ";
+        $safe_email = htmlspecialchars($email['home_email'], ENT_QUOTES, 'UTF-8');
+        $rv .= '<option value="' . $safe_email .  '">' . $safe_email  . '</option>' . " ";
     }
     echo $rv;
     ?>

@@ -85,9 +85,12 @@ if ($row['saw_facebook'] == 1) {
 if ($row['saw_friend'] == 1) {
     $heard_about .= 'Heard from friend<br>';
 }
+
+$txt .= '<br/><strong>How did applicant hear about us</strong><br/><br/>';
 if ($heard_about != '') {
-    $txt .= '<br/><strong>How did applicant hear about us</strong><br/><br/>';
     $txt .= sprintf('<div class="heard_about">%s</div>', $heard_about);
+} else {
+    $txt .= sprintf('<div class="heard_about">%s</div>', "None indicated");
 }
 
 $txt .= '</div>'; // end of surround border

@@ -30,7 +30,7 @@
         $txt .= '<div class="container mt-5">';
         $txt .= '<h2 class="text-center mb-4">Project Reports</h2>';
 
-        $sql = 'select projectName, id from project order by projectName';
+        $sql = 'select projectName, id from project where divider = 0 order by projectName ';
         $query = $dbh->prepare($sql);
         $query->execute();
         $projects = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -53,9 +53,9 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             //   document.getElementById('submitForm').addEventListener('submit', function (e) {
-            document.getElementById('projectList').addEventListener('change', function() {
+            document.getElementById('projectList').addEventListener('change', function () {
                 //  e.preventDefault();
                 const value = this.value; //document.getElementById('projectList').value;
 

@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-<!-- No longer used -->
 <html>
 
 <head>
@@ -31,15 +30,24 @@
                                 button.</h3>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Enter Email:</label>
-                                <input type="email" name="email" class="form-control" required />
+                                <input type="email" name="email" class="form-control" required maxlength="50" />
                             </div>
                             <div class="mb-3">
                                 <label for="fname" class="form-label">First Name:</label>
-                                <input type="text" name="fname" class="form-control" required />
+                                <input type="text" name="fname" class="form-control" required maxlength="20" />
                             </div>
                             <div class="mb-3">
                                 <label for="lname" class="form-label">Last Name:</label>
-                                <input type="text" name="lname" class="form-control" required />
+                                <input type="text" name="lname" class="form-control" required maxlength="30" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="pwd" class="form-label">Password:</label>
+                                <input type="password" name="pwd" id="pwd" class="form-control" required minlength="8" maxlength="128" autocomplete="new-password" />
+                                <div class="form-text">At least 8 characters.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="pwd2" class="form-label">Confirm password:</label>
+                                <input type="password" id="pwd2" class="form-control" required minlength="8" maxlength="128" autocomplete="new-password" />
                             </div>
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary"
@@ -70,13 +78,20 @@
         function performRegistration() {
             document.getElementById("outputFalse").style.display = "none";
             document.getElementById("outputTrue").style.display = "none";
+            const pwd = document.getElementById("pwd").value;
+            const pwd2 = document.getElementById("pwd2").value;
+            if (pwd !== pwd2) {
+                document.getElementById("outputFalse").innerHTML = "Passwords do not match.";
+                document.getElementById("outputFalse").style.display = "block";
+                return;
+            }
             const formData = new FormData(document.getElementById("registerForm"));
             fetch("register.php", {
                 method: "post",
                 body: formData
             }).then(response => response.text())
                 .then(text => {
-                    if (text == "true") {
+                    if (text.startsWith("true")) {
                         document.getElementById("outputTrue").innerHTML = "Registration succeeded";
                         document.getElementById("outputTrue").style.display = "block";
                     } else if (text == "false") {

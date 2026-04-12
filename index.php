@@ -268,9 +268,11 @@
                 Swal.fire({
                     title: 'Register',
                     html: `
-            <input type="email" id="email" class="swal2-input" placeholder="Email">
-            <input type="text" id="fname" class="swal2-input" placeholder="First Name">
-            <input type="text" id="lname" class="swal2-input" placeholder="Last Name">
+            <input type="email" id="email" class="swal2-input" placeholder="Email" maxlength="50">
+            <input type="text" id="fname" class="swal2-input" placeholder="First Name" maxlength="20">
+            <input type="text" id="lname" class="swal2-input" placeholder="Last Name" maxlength="30">
+            <input type="password" id="pwd" class="swal2-input" placeholder="Password (min 8 characters)" minlength="8" maxlength="128" autocomplete="new-password">
+            <input type="password" id="pwd2" class="swal2-input" placeholder="Confirm password" minlength="8" maxlength="128" autocomplete="new-password">
             <br/><br/><br/>
             <div id="outputTrue" style="color:green;"></div>
             <div id="outputFalse" style="color:red;"></div>
@@ -285,10 +287,22 @@
                         const email = document.getElementById('email').value.trim();
                         const fname = document.getElementById('fname').value.trim();
                         const lname = document.getElementById('lname').value.trim();
+                        const pwd = document.getElementById('pwd').value;
+                        const pwd2 = document.getElementById('pwd2').value;
 
-                        if (!email || !fname || !lname) {
-                            Swal.showValidationMessage('All fields are required');
+                        if (!email || !fname || !lname || !pwd || !pwd2) {
+                            Swal.showValidationMessage('All fields including password are required');
                             return false; // keeps the modal open
+                        }
+
+                        if (pwd.length < 8) {
+                            Swal.showValidationMessage('Password must be at least 8 characters');
+                            return false;
+                        }
+
+                        if (pwd !== pwd2) {
+                            Swal.showValidationMessage('Passwords do not match');
+                            return false;
                         }
 
                         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -307,6 +321,7 @@
                                     email,
                                     fname,
                                     lname,
+                                    pwd,
                                 }),
                             })
                             .then((r) => r.text())

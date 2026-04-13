@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="t6">
+  <title id="t6">Reports screen button</title>
+  <rect width="720" height="280" fill="#f8f9fa"/>
+  <text x="360" y="40" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="600" fill="#212529">Reports</text>
+  <rect x="60" y="70" width="600" height="64" rx="8" fill="#fff" stroke="#dee2e6"/>
+  <rect x="420" y="86" width="180" height="36" rx="6" fill="#6c757d"/>
+  <text x="510" y="109" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#fff">Go to Report's Screen</text>
+  <text x="80" y="110" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#495057">Opens a separate reports page in a new browser tab.</text>
+  <rect x="60" y="170" width="600" height="90" rx="8" fill="#fff7ed" stroke="#fd7e14" stroke-dasharray="6 4"/>
+  <text x="360" y="205" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#984c0c">You must be signed in to save project choices with Submit.</text>
+  <text x="360" y="230" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#984c0c">If Submit is disabled or you see a warning, open Sign in first.</text>
+</svg>

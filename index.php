@@ -201,7 +201,7 @@ $signedInEmail = $loggedIn ? (string) ($_SESSION['person_email'] ?? '') : '';
         $txt .= '</div>';
         $txt .= '<button type="submit" class="btn btn-success">Submit</button>' . "\n";
         $txt .= '<button type="button" class="btn btn-secondary" onclick="projectReports()">Go to Report\'s Screen</button>' . "\n";
-        $txt .= '<a href="projectinterestinstructions.html" class="btn btn-link py-2" onclick="openInstructions(event)">View Instructions</a>';
+        $txt .= '<a href="instructions/index.html" class="btn btn-link py-2" onclick="openInstructions(event)">View Instructions</a>';
         $txt .= '</div></div></div>';
 
         $txt .= '<div class="row">' . "\n";

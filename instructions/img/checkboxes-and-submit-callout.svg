@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 620" role="img" aria-labelledby="cbTitle">
+  <title id="cbTitle">Selecting project checkboxes and using the green Submit button</title>
+  <defs>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-opacity="0.15"/>
+    </filter>
+    <marker id="mArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#c92a2a"/>
+    </marker>
+    <marker id="mBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#1864ab"/>
+    </marker>
+  </defs>
+  <rect width="880" height="620" fill="#f8f9fa"/>
+  <text x="440" y="40" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="20" font-weight="700" fill="#212529">Selecting interests</text>
+  <text x="440" y="66" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#495057">Check the box beside each project you want, then save with Submit.</text>
+  <rect x="80" y="92" width="720" height="76" rx="8" fill="#fff" stroke="#dee2e6" filter="url(#sh)"/>
+  <rect x="112" y="116" width="92" height="36" rx="6" fill="#198754" stroke="#146c43" stroke-width="3"/>
+  <text x="158" y="140" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="600" fill="#fff">Submit</text>
+  <text x="230" y="138" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#6c757d">Saves your checkbox choices</text>
+  <rect x="40" y="108" width="28" height="28" rx="14" fill="#c92a2a"/>
+  <text x="54" y="128" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="16" font-weight="700" fill="#fff">3</text>
+  <path d="M68 122 L100 122" stroke="#c92a2a" stroke-width="2" marker-end="url(#mArrow)"/>
+  <text x="36" y="98" font-family="Segoe UI,system-ui,sans-serif" font-size="13" font-weight="700" fill="#c92a2a">Step 3</text>
+  <g transform="translate(80,210)">
+    <rect width="360" height="200" rx="8" fill="#fff" stroke="#dee2e6" filter="url(#sh)"/>
+    <rect x="20" y="24" width="22" height="22" rx="4" fill="#fff" stroke="#333" stroke-width="2.5"/>
+    <text x="54" y="41" font-family="Segoe UI,system-ui,sans-serif" font-size="16" font-weight="700" fill="#212529">Holiday baskets</text>
+    <text x="20" y="72" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#495057">Unchecked = not interested</text>
+  </g>
+  <g transform="translate(440,210)">
+    <rect width="360" height="200" rx="8" fill="#fff" stroke="#dee2e6" filter="url(#sh)"/>
+    <rect x="20" y="24" width="22" height="22" rx="4" fill="#0d6efd" stroke="#0d6efd" stroke-width="2"/>
+    <path d="M26 35 l5 5 l10 -10" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="54" y="41" font-family="Segoe UI,system-ui,sans-serif" font-size="16" font-weight="700" fill="#212529">Reading buddies</text>
+    <text x="20" y="72" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#495057">Checked = interested</text>
+  </g>
+  <rect x="100" y="430" width="28" height="28" rx="14" fill="#1864ab"/>
+  <text x="114" y="450" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="16" font-weight="700" fill="#fff">1</text>
+  <text x="140" y="450" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#212529">Click the square checkbox to select or clear a project.</text>
+  <rect x="100" y="478" width="28" height="28" rx="14" fill="#1864ab"/>
+  <text x="114" y="498" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="16" font-weight="700" fill="#fff">2</text>
+  <text x="140" y="498" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#212529">Read Manager, time, and description on each card. Use <tspan font-weight="700">Full Description</tspan> when available.</text>
+  <rect x="100" y="526" width="28" height="28" rx="14" fill="#1864ab"/>
+  <text x="114" y="546" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="16" font-weight="700" fill="#fff">3</text>
+  <text x="140" y="546" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#212529">Click the green <tspan font-weight="700" fill="#198754">Submit</tspan> button in the toolbar to save (you must be signed in).</text>
+  <path d="M114 418 L114 320 L200 320 L200 280" fill="none" stroke="#1864ab" stroke-width="2" marker-end="url(#mBlue)"/>
+</svg>

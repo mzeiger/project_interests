@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>How to use Project Interests</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .doc-figure {
+            max-width: 720px;
+        }
+
+        .doc-figure img {
+            width: 100%;
+            height: auto;
+        }
+
+        .doc-figure-main {
+            max-width: 960px;
+        }
+
+        .doc-figure-main img {
+            width: 100%;
+            height: auto;
+        }
+
+        .toc a {
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Project Interests</span>
+            <div class="navbar-nav ms-auto">
+                <!-- <a class="nav-link text-white" href="../index.php"><i class="bi bi-house-door me-1"></i>Open app</a> -->
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4 py-md-5">
+        <header class="mb-4">
+            <h1 class="h2 mb-2">How to use Project Interests</h1>
+            <p class="lead text-secondary mb-0">
+                New members start by creating an account, then sign in to load and save project interests. This page
+                follows that order, then explains the main screen, how to select projects, and where to open reports.
+            </p>
+        </header>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body toc">
+                <h2 class="h5 card-title">On this page</h2>
+                <ul class="mb-0">
+                    <li><a href="#register">Create an account</a></li>
+                    <li><a href="#sign-in">Sign in</a></li>
+                    <li><a href="#forgot-password">Forgot password</a></li>
+                    <li><a href="#overview">What you see on the main page</a></li>
+                    <li><a href="#main-screen">Main screen layout picture</a></li>
+                    <li><a href="#select-projects">Select projects</a></li>
+                    <li><a href="#checkboxes-submit">Checkboxes and Submit</a></li>
+                    <li><a href="#workflow">Workflow</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <section id="register" class="mb-5">
+            <h2 class="h4">Create an account</h2>
+            <ol>
+                <li>Click <strong>Register</strong> in the toolbar (or the Register button in the blue info strip on the
+                    main page).</li>
+                <li>Fill in first name, last name, email, and password (and confirm password).</li>
+                <li>Use the eye icons to show or hide passwords if needed.</li>
+                <li>Submit the form. You can then sign in with that email and password.</li>
+            </ol>
+            <figure class="doc-figure mx-auto my-3">
+                <img src="img/illustration-register.svg" alt="Illustration of a registration form"
+                    class="rounded border bg-white shadow-sm" width="640" height="480">
+                <figcaption class="small text-secondary mt-2">Registration collects your name, email, and password.
+                </figcaption>
+            </figure>
+        </section>
+
+        <section id="sign-in" class="mb-5">
+            <h2 class="h4">Sign in</h2>
+            <ol>
+                <li>Click <strong>Sign in</strong> in the toolbar.</li>
+                <li>Enter the email and password you used when you registered.</li>
+                <li>Use the eye icon in the password field if you want to show or hide what you typed.</li>
+                <li>Click <strong>Sign in</strong> in the dialog. Click <strong>Cancel</strong> to close without signing
+                    in.</li>
+            </ol>
+            <p class="text-secondary small mb-0">
+                After a successful sign-in, the page reloads and your saved project interests load into the checkboxes.
+            </p>
+            <figure class="doc-figure mx-auto my-3">
+                <img src="img/illustration-sign-in.svg"
+                    alt="Illustration of the sign-in dialog with email, password, and forgot password link"
+                    class="rounded border bg-white shadow-sm" width="640" height="480">
+                <figcaption class="small text-secondary mt-2">Sign-in dialog with optional &ldquo;Forgot
+                    password?&rdquo; link.</figcaption>
+            </figure>
+        </section>
+
+        <section id="forgot-password" class="mb-5">
+            <h2 class="h4">Forgot password</h2>
+            <ol>
+                <li>Open <strong>Sign in</strong>, then click <strong>Forgot password?</strong></li>
+                <li>Enter your account email and submit. If an account exists, a reset message is sent to that address.
+                </li>
+                <li>Open the link in the email and choose a new password.</li>
+            </ol>
+            <p class="text-secondary small">
+                Your club&rsquo;s server must be configured to send email for the message to arrive. If you are testing
+                on your own computer, your administrator may provide a local reset link instead.
+            </p>
+            <figure class="doc-figure mx-auto my-3">
+                <img src="img/illustration-forgot-password.svg" alt="Illustration of forgot password email flow"
+                    class="rounded border bg-white shadow-sm" width="640" height="480">
+                <figcaption class="small text-secondary mt-2">Forgot password uses email (or a local link when
+                    configured for testing).</figcaption>
+            </figure>
+        </section>
+
+        <section id="overview" class="mb-5">
+            <h2 class="h4">What you see on the main page</h2>
+            <p>
+                The main screen lists available projects as checkboxes on cards, often grouped by category headers
+                (dividers). The blue info strip explains that you should <strong>Sign in</strong> (or use
+                <strong>Register</strong> in that strip) before saving. The white toolbar has <strong>Sign in</strong>,
+                the green <strong>Submit</strong> button, <strong>Go to Report&apos;s Screen</strong>, and
+                <strong>View Instructions</strong>. After you sign in, the toolbar shows who is signed in and a
+                <strong>Sign out</strong> link instead of Sign in. You must be signed in before your checkbox choices
+                can be saved. If you have previously selected projects, those boxes will be checked when you sign in and
+                load the page. You can then adjust your choices and click Submit to update your saved interests.
+            </p>
+            <figure id="main-screen" class="doc-figure-main mx-auto my-4">
+                <img src="img/main-screen-mockup.svg"
+                    alt="Picture-style mockup of the Select Projects page: info alert, toolbar with Sign in Submit and reports link, category divider, and four project cards with checkboxes"
+                    class="rounded border bg-white shadow-sm" width="920" height="980">
+                <figcaption class="small text-secondary mt-2">
+                    Mockup of the main screen (sample project names). Open the live app to see your club&apos;s real
+                    list.
+                </figcaption>
+            </figure>
+            <figure class="doc-figure mx-auto my-3">
+                <img src="img/illustration-overview.svg"
+                    alt="Simplified diagram of the main page with toolbar and two sample project cards"
+                    class="rounded border bg-white shadow-sm" width="880" height="420">
+                <figcaption class="small text-secondary mt-2">Simplified overview diagram.</figcaption>
+            </figure>
+        </section>
+
+        <section id="select-projects" class="mb-5">
+            <h2 class="h4">Select projects</h2>
+            <p>
+                On the main interests page, browse the project cards. Category dividers group related projects when your
+                club sets them up that way. When you are ready to record what you want, follow these steps:
+            </p>
+            <ol>
+                <li><strong>Sign in</strong> so the site knows which member record to update.</li>
+                <li>Check the boxes for projects you are interested in; uncheck any you no longer want.</li>
+                <li>Click <strong>Submit</strong> to save. Wait for the confirmation message.</li>
+            </ol>
+            <p class="small text-secondary mb-0">The <a href="#checkboxes-submit">Checkboxes and Submit</a> section next
+                shows those controls in a picture.</p>
+        </section>
+
+        <section id="checkboxes-submit" class="mb-5">
+            <h2 class="h4">Checkboxes and Submit</h2>
+            <p>
+                Each project appears on a card with a square checkbox on the left of the project name. Click the box
+                to mark interest (checked) or clear it (unchecked). When you are done, click the green
+                <strong>Submit</strong> button in the toolbar to write your choices to the database.
+            </p>
+            <figure class="doc-figure-main mx-auto my-3">
+                <img src="img/checkboxes-and-submit-callout.svg"
+                    alt="Illustration highlighting the Submit button and two project cards showing checked and unchecked boxes, with numbered steps"
+                    class="rounded border bg-white shadow-sm" width="880" height="620">
+                <figcaption class="small text-secondary mt-2">How checkboxes relate to the green Submit control.
+                </figcaption>
+            </figure>
+            <p class="text-secondary small mb-0">
+                If Submit seems to do nothing, confirm you are signed in and watch for a confirmation popup after
+                saving.
+            </p>
+        </section>
+
+        <section id="workflow" class="mb-5">
+            <h2 class="h4">Workflow</h2>
+            <p class="mb-3">
+                This is the same sequence as <a href="#select-projects">Select projects</a> above, shown as a quick
+                visual summary.
+                See the <a href="#checkboxes-submit">checkboxes and Submit</a> section for a labeled picture of the
+                controls.
+            </p>
+            <figure class="doc-figure mx-auto my-3">
+                <img src="img/illustration-submit-flow.svg" alt="Three-step workflow: Sign in, check projects, Submit"
+                    class="rounded border bg-white shadow-sm" width="900" height="200">
+                <figcaption class="small text-secondary mt-2">Typical order: sign in, adjust boxes, submit.</figcaption>
+            </figure>
+        </section>
+
+        <section id="reports" class="mb-5">
+            <h2 class="h4">Reports</h2>
+            <p>
+                Click <strong>Go to Report&apos;s Screen</strong> in the toolbar to open project reporting in a new
+                browser tab or window (depending on your browser). Use that area for summaries your club has set up; it
+                is separate from checking boxes on the interests page.
+            </p>
+            <figure class="doc-figure mx-auto my-3">
+                <img src="img/illustration-reports.svg" alt="Illustration of opening reports in a new window"
+                    class="rounded border bg-white shadow-sm" width="640" height="480">
+                <figcaption class="small text-secondary mt-2">Reports opens in a new tab or window.</figcaption>
+            </figure>
+        </section>
+
+        <footer class="border-top pt-4 text-secondary small">
+            <p class="mb-1">
+                <a href="../index.php">Return to Project Interests</a>
+                &middot;
+                <a href="../projectinterestinstructions.html">Older illustrated instructions (PNG)</a>
+            </p>
+            <p class="mb-0">&copy; Kiwanis Project Interests documentation.</p>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

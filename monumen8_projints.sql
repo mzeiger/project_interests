@@ -65,21 +65,8 @@ INSERT INTO `application` (`id`, `first_name`, `last_name`, `dob_month`, `dob_da
 
 --
 -- Triggers `application`
+-- (trg_insert_person removed: `application` inserts no longer create `person` rows.)
 --
-DROP TRIGGER IF EXISTS `trg_insert_person`;
-DELIMITER $$
-CREATE TRIGGER `trg_insert_person` AFTER INSERT ON `application` FOR EACH ROW BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM person
-        WHERE email = NEW.home_email
-    ) THEN
-        INSERT INTO person (fname, lname, email)
-        VALUES (NEW.first_name, NEW.last_name, NEW.home_email);
-    END IF;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 

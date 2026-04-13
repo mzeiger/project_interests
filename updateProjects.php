@@ -1,12 +1,17 @@
 <?php
 
-//echo $_POST['email'];
-//echo "<br/>";
+session_start();
 
-require('db_connect.php') ;
+require __DIR__ . '/db_connect.php';
 
-$person = explode(':', $_POST['email_list']);
-$personId = $person[0] ;
+header('Content-Type: text/plain; charset=utf-8');
+
+if (empty($_SESSION['person_id'])) {
+    echo 'You must be signed in to save your projects.';
+    exit;
+}
+
+$personId = (int) $_SESSION['person_id'];
 
 //delete all the interests for this email
 $sql = "delete from interest where personId = :personId";

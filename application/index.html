@@ -354,7 +354,8 @@
                 <input type="hidden" name="original_email" id="original_email" value="">
 
                 <p class="membership-title">Membership Application</p>
-                <div id="edit-banner" style="display:none; text-align:center; background-color:#f1c40f; color:#fff; padding:10px; border-radius:8px; font-weight:bold; font-size:20px; margin-bottom:20px;">
+                <div id="edit-banner"
+                    style="display:none; text-align:center; background-color:#f1c40f; color:#fff; padding:10px; border-radius:8px; font-weight:bold; font-size:20px; margin-bottom:20px;">
                     Editing this application
                 </div>
                 <div class="main-div">
@@ -648,6 +649,18 @@
         });
     </script>
 
+    <!-- <script>
+        async function handleSuccess(text) {
+            await send_email_to_vp();
+            Swal.fire({
+                icon: 'success',
+                title: 'Application Completed Successfully',
+                text: 'Your application has been submitted successfully.',
+                confirmButtonText: 'OK',
+            });
+        }
+    </script> -->
+
     <script>
         /* Dynamic URL for projects page */
         async function handleSuccess(text) {
@@ -659,8 +672,9 @@
                 showConfirmButton: false,
                 showCancelButton: false,
                 html: `
-                            Your application has been submitted successfully! Next, please let us know which projects or events you're interested in by visiting the Projects page.<br/>
-                            <span style="color:red;">Note: You are already registered in the projects page, so no need to sign up again there. Simply select your email from the "Email" dropdown.</span><br/>
+                            Your application has been submitted successfully!<br/>
+                            Next, please let us know which projects or events you're 
+                            interested in by visiting the Projects page.<br/>                          
                             Click <a href="${baseUrl}" target="_blank">HERE</a> to go to the Projects page.
                          `,
             });
@@ -854,18 +868,18 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async function() {
+        document.addEventListener("DOMContentLoaded", async function () {
             const urlParams = new URLSearchParams(window.location.search);
             let email = urlParams.get('email');
-            
+
             if (!email && sessionStorage.getItem("edit_applicant_email")) {
                 email = sessionStorage.getItem("edit_applicant_email");
                 sessionStorage.removeItem("edit_applicant_email");
             }
-            
+
             if (email) {
                 document.getElementById('original_email').value = email;
-                
+
                 try {
                     const res = await fetch(`get_applicant_data.php`, {
                         method: 'POST',
@@ -884,7 +898,7 @@
 
                         document.getElementById('first_name').value = data.first_name || '';
                         document.getElementById('last_name').value = data.last_name || '';
-                        
+
                         const dobMonth = document.querySelector('select[name="dob_month"]');
                         dobMonth.value = data.dob_month || '';
                         updateDays();
@@ -893,7 +907,7 @@
                         document.querySelector('input[name="spouse"]').value = data.spouse || '';
                         document.querySelector('input[name="address"]').value = data.address || '';
                         document.querySelector('input[name="city"]').value = data.city || '';
-                        
+
                         const setValue = (selector, val) => {
                             const el = document.querySelector(selector);
                             if (el && val) {
@@ -901,7 +915,7 @@
                                 el.dispatchEvent(new Event('input', { bubbles: true }));
                             }
                         };
-                        
+
                         setValue('#state', data.state || 'CO');
                         setValue('#zip', data.zip);
                         setValue('#home_phone', data.home_phone);
@@ -911,9 +925,9 @@
                         setValue('input[name="business_name"]', data.business_name);
                         setValue('input[name="job_title"]', data.job_title);
                         setValue('input[name="business_address"]', data.business_address);
-                        setValue('#business_phone', data.business_phone); 
+                        setValue('#business_phone', data.business_phone);
                         setValue('#business_email', data.business_email);
-                        
+
                         setValue('textarea[name="bio"]', data.bio);
                         setValue('textarea[name="skills"]', data.skills);
 

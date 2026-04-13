@@ -86,16 +86,6 @@ try {
         $ary[":original_email"] = $original_email;
         $query = $dbh->prepare($sql);
         $query->execute($ary);
-
-        if ($original_email !== $home_email) {
-            try {
-                $sql_update_email = "UPDATE project_person SET email = :new_email WHERE email = :old_email";
-                $query_email = $dbh->prepare($sql_update_email);
-                $query_email->execute([':new_email' => $home_email, ':old_email' => $original_email]);
-            } catch (Exception $e) {
-                // ignore if project_person does not exist or fails
-            }
-        }
     } else {
         $sql = "INSERT INTO `application`(`first_name`, `last_name`, `dob_month`, `dob_day`, `spouse`, `address`, `city`, `state`, `zip`,
        `home_phone`, `cell_phone`, `home_email`, `sponsor`, `business_name`, `job_title`, `business_address`, `business_email`, `bio`,

@@ -1,5 +1,8 @@
 <?php
 
+// Creates rows in `person` (project interests accounts). The membership application
+// (application/application.php) does not call this file; it only writes to `application`.
+
 require("db_connect.php");
 
 try {
@@ -42,7 +45,12 @@ try {
             ":fname" => $fname,
             ":pwd" => $pwdHash,
         ]);
-        $insertedId = $dbh->lastInsertId();
+        $insertedId = (int) $dbh->lastInsertId();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['person_id'] = $insertedId;
+        $_SESSION['person_email'] = $email;
         echo 'true' . ':' . $insertedId;   // this must start with "t" as in "true"
     } else {
         echo "false";

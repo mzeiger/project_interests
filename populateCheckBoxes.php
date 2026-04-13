@@ -1,21 +1,25 @@
 <?php
 
+session_start();
 
- require("db_connect.php");
+require __DIR__ . '/db_connect.php';
 
- $cb =  explode(":", $_POST['cb']);
- $personId = $cb[0];
+header('Content-Type: application/json; charset=utf-8');
 
- $sql = "select projectId from interest where personId = :personId";
- $query = $dbh->prepare($sql);
- $query->execute([":personId" => $personId]);
- $projectIds = $query->fetchAll(PDO::FETCH_ASSOC);
+if (empty($_SESSION['person_id'])) {
+    echo json_encode([]);
+    exit;
+}
 
- $ar = [];
- foreach($projectIds as $projectId) {
-     array_push($ar,'cb-' . $projectId['projectId']);
- }
- header("Content-Type: application/json");
- echo json_encode($ar) ;
+$personId = (int) $_SESSION['person_id'];
 
-?>
+$sql = "select projectId from interest where personId = :personId";
+$query = $dbh->prepare($sql);
+$query->execute([':personId' => $personId]);
+$projectIds = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$ar = [];
+foreach ($projectIds as $projectId) {
+    $ar[] = 'cb-' . $projectId['projectId'];
+}
+echo json_encode($ar);

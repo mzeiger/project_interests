@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+require __DIR__ . '/db_connect.php';
+
+$sql = 'select * from project order by position';
+$query = $dbh->prepare($sql);
+$query->execute();
+$projects = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$loggedIn = !empty($_SESSION['person_id']);
+$signedInEmail = $loggedIn ? (string) ($_SESSION['person_email'] ?? '') : '';
+?>
 <!DOCTYPE HTML>
 <!-- index.php is the main call for the interests page for project interests -->
 
@@ -12,6 +25,7 @@
     <title>Kiwanis Projects</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
@@ -66,27 +80,96 @@
             display: flex;
             align-items: center;
         }
+
+        .pwd-input-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .pwd-input-wrap .form-control {
+            padding-right: 2.5rem;
+        }
+
+        .pwd-input-wrap .pwd-toggle-inside {
+            position: absolute;
+            right: 0.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2.25rem;
+            height: 1.85rem;
+            border: none;
+            background: transparent;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            z-index: 5;
+            padding: 0;
+        }
+
+        .pwd-input-wrap .pwd-toggle-inside:hover,
+        .pwd-input-wrap .pwd-toggle-inside:focus-visible {
+            color: #212529;
+            background: rgba(0, 0, 0, 0.06);
+            outline: none;
+        }
+
+        .pwd-input-wrap .pwd-toggle-inside i {
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .swal-register-form .pwd-input-wrap .pwd-toggle-inside {
+            height: 1.65rem;
+            width: 2.1rem;
+        }
+
+        .swal-register-form .pwd-input-wrap .pwd-toggle-inside i {
+            font-size: 1rem;
+        }
+
+        .action-toolbar {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            max-width: 56rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .swal-register-form {
+            text-align: left;
+        }
+
+        .swal-register-form .reg-field {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .swal-register-form .reg-field>label {
+            flex: 0 0 6.25rem;
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .swal-register-form .reg-field-grow {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .swal-register-form .reg-field-grow .form-control {
+            width: 100%;
+        }
     </style>
 
 </head>
 
-<body>
-
-    <?php
-
-    require("db_connect.php");
-
-    $sql = 'select * from project order by position';
-    $query = $dbh->prepare($sql);
-    $query->execute();
-    $projects = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    $sql = 'select * from person order by email';
-    $query = $dbh->prepare($sql);
-    $query->execute();
-    $emails = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    ?>
+<body data-logged-in="<?php echo $loggedIn ? '1' : '0'; ?>">
 
     <div class="mt-5" style="width: 80%; margin: 0 auto;">
         <h2 class="text-center mb-3">Select Projects</h2>
@@ -96,22 +179,30 @@
         <?php
         $txt = '<form action="updateProjects.php" method="post" id="submitForm">' . "\n";
 
-        $txt .= '<div class="alert alert-info mb-4" style="max-width: 600px; margin: 0 auto;">';
-        $txt .= '<h5>If you can\'t find your email in the <span class="text-success">Select Box</span> below then ';
-        $txt .= 'click this button <button type="button" class="btn btn-primary btn-sm" id="sweetAlerts">Register</button> to register.';
-        $txt .= ' Otherwise select your email, select your projects, and click on the <span class="text-success">Submit</span> button.</h5>';
+        $txt .= '<div class="alert alert-info mb-4" style="max-width: 720px; margin: 0 auto;">';
+        $txt .= '<h5 class="mb-0">Click <strong>Sign in</strong> and enter your email and password to load and save your interests. ';
+        $txt .= 'New here? Click <button type="button" class="btn btn-primary btn-sm" id="sweetAlerts">Register</button>. ';
+        $txt .= 'After signing in, choose projects and click <span class="text-success">Submit</span>.</h5>';
         $txt .= '</div>';
 
+        $guestClass = $loggedIn ? 'd-none' : '';
+        $userClass = $loggedIn ? '' : 'd-none';
+        $safeEmail = htmlspecialchars($signedInEmail, ENT_QUOTES, 'UTF-8');
+
         $txt .= '<div class="row mb-4 justify-content-center">';
-        $txt .= '<div class="col-md-4">';
-        $txt .= selectBox($emails) . "\n";
+        $txt .= '<div class="col-12 px-2">';
+        $txt .= '<div class="action-toolbar d-flex flex-wrap align-items-center justify-content-evenly gap-2 gap-md-3 px-2 px-sm-3 py-3 w-100">';
+        $txt .= '<div id="authGuest" class="d-flex align-items-center ' . $guestClass . '">';
+        $txt .= '<button type="button" class="btn btn-primary" id="btnOpenSignIn">Sign in</button>';
         $txt .= '</div>';
-        $txt .= '<div class="col-md-8 d-flex align-items-center">';
-        $txt .= '<button type="submit" class="btn btn-success me-3">Submit</button>' . "\n";
-        $txt .= '<button type="button" class="btn btn-secondary me-3" onclick="projectReports()">Go to Report\'s Screen</button>' . "\n";
-        $txt .= '<a href="projectinterestinstructions.html" class="btn btn-link" onclick="openInstructions(event)">View Instructions</a>';
+        $txt .= '<div id="authUser" class="d-flex flex-wrap align-items-center justify-content-center gap-2 ' . $userClass . '">';
+        $txt .= '<span class="text-nowrap mb-0"><strong>Signed in as</strong> <span id="signedInEmail">' . $safeEmail . '</span></span>';
+        $txt .= '<a href="logout.php" class="btn btn-outline-secondary">Sign out</a>';
         $txt .= '</div>';
-        $txt .= '</div>';
+        $txt .= '<button type="submit" class="btn btn-success">Submit</button>' . "\n";
+        $txt .= '<button type="button" class="btn btn-secondary" onclick="projectReports()">Go to Report\'s Screen</button>' . "\n";
+        $txt .= '<a href="projectinterestinstructions.html" class="btn btn-link py-2" onclick="openInstructions(event)">View Instructions</a>';
+        $txt .= '</div></div></div>';
 
         $txt .= '<div class="row">' . "\n";
 
@@ -153,17 +244,6 @@
             $rv .= ' id="cb-' . $proj['id'] . '"';
             $rv .= ' title="Select to show interest"';
             $rv .= '>';
-            return $rv;
-        }
-
-        function selectBox($emails): string
-        {
-            $rv = '<select id="email_list" name="email_list" class="form-select" onchange="handleEmailSelection(this.value)">';
-            $rv .= '<option value=""> -- Select your email -- </option>';
-            foreach ($emails as $email) {
-                $rv .= '<option value="' . $email['id'] . ':' . $email['email'] . '">' . $email['email'] . '</option>' . "\n";
-            }
-            $rv .= '</select>';
             return $rv;
         }
 
@@ -209,57 +289,280 @@
         </script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                document
-                    .getElementById('submitForm')
-                    .addEventListener('submit', async function(event) {
-                        event.preventDefault(); // stop the submit
-                        const email = document.getElementById('email_list').value;
-                        if (email === '') {
-                            sweetAlerts('', 'Please select an email before submitting.', 'warning');
-                        } else {
-                            const formData = new FormData();
+            function setSignedInView(email) {
+                document.body.dataset.loggedIn = '1';
+                document.getElementById('authGuest').classList.add('d-none');
+                document.getElementById('authUser').classList.remove('d-none');
+                document.getElementById('signedInEmail').textContent = email;
+            }
 
-                            // Add all checked checkboxes
-                            document
-                                .querySelectorAll('.projectCheckbox:checked')
-                                .forEach((cb) => formData.append('items[]', cb.value));
+            function escapeHtmlForSwal(s) {
+                const d = document.createElement('div');
+                d.textContent = s;
+                return d.innerHTML;
+            }
 
-                            formData.append('email_list', email);
-
-                            console.log(formData);
-
-                            const response = await fetch('updateProjects.php', {
-                                method: 'POST',
-                                body: formData,
-                            });
-
-                            const message = await response.text();
-                            sweetAlerts('Results', message, 'info');
+            function openForgotPasswordDialog() {
+                Swal.fire({
+                    title: 'Forgot password',
+                    width: '28rem',
+                    html: `
+            <p class="text-start small text-muted mb-2">Enter your account email. If it is registered, we will send a message to that address with a link to reset your password. The link is valid for one hour.</p>
+            <label for="fp_email" class="form-label small mb-1">Email</label>
+            <input type="email" id="fp_email" class="form-control form-control-sm" autocomplete="email" maxlength="50">
+        `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Send reset link',
+                    cancelButtonText: 'Cancel',
+                    allowOutsideClick: false,
+                    focusConfirm: false,
+                    didOpen: () => {
+                        document.getElementById('fp_email').focus();
+                    },
+                    preConfirm: () => {
+                        const email = document.getElementById('fp_email').value.trim();
+                        if (!email) {
+                            Swal.showValidationMessage('Enter your email.');
+                            return false;
                         }
-                    });
-            });
+                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                            Swal.showValidationMessage('Enter a valid email.');
+                            return false;
+                        }
+                        Swal.showLoading();
+                        return fetch('forgot_password_request.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: new URLSearchParams({
+                                    email
+                                }),
+                                credentials: 'same-origin',
+                            })
+                            .then((r) => r.json())
+                            .then((data) => {
+                                Swal.hideLoading();
+                                if (!data.ok) {
+                                    Swal.showValidationMessage(data.error || 'Request failed.');
+                                    return false;
+                                }
+                                return {
+                                    message: data.message ||
+                                        'If an account exists for that email, check your inbox.',
+                                    dev_reset_url: data.dev_reset_url || null,
+                                };
+                            })
+                            .catch(() => {
+                                Swal.hideLoading();
+                                Swal.showValidationMessage('Network error. Please try again.');
+                                return false;
+                            });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed || !result.value) {
+                        return;
+                    }
+                    const v = result.value;
+                    if (typeof v === 'object' && v.dev_reset_url) {
+                        const u = v.dev_reset_url;
+                        Swal.fire({
+                            title: 'Password reset link',
+                            html: `<p class="text-start small mb-3">${escapeHtmlForSwal(v.message)}</p>
+                <p class="mb-2"><a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="${escapeHtmlForSwal(u)}">Open reset page</a></p>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="swalCopyResetUrl">Copy URL to clipboard</button>`,
+                            confirmButtonText: 'Close',
+                            didOpen: () => {
+                                const btn = document.getElementById('swalCopyResetUrl');
+                                if (btn) {
+                                    btn.addEventListener('click', () => {
+                                        navigator.clipboard.writeText(u).then(() => {
+                                            btn.textContent = 'Copied!';
+                                        }).catch(() => {
+                                            sweetAlerts('', 'Could not copy. Select the address from the browser bar after opening the link.', 'info');
+                                        });
+                                    });
+                                }
+                            },
+                        });
+                    } else if (typeof v === 'object' && v.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Check your email',
+                            text: v.message,
+                            confirmButtonText: 'Close',
+                        });
+                    } else if (typeof v === 'string' && v) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Check your email',
+                            text: v,
+                            confirmButtonText: 'Close',
+                        });
+                    }
+                });
+            }
 
-            function handleEmailSelection(theValue) {
-                // Uncheck all checkboxes
-                document.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            function openSignInDialog() {
+                Swal.fire({
+                    title: 'Sign in',
+                    width: '30rem',
+                    html: `
+            <div class="swal-register-form px-1">
+              <div class="reg-field">
+                <label for="signin_email">Email</label>
+                <div class="reg-field-grow"><input type="email" id="signin_email" class="form-control form-control-sm" maxlength="50" autocomplete="username"></div>
+              </div>
+              <div class="reg-field">
+                <label for="signin_pwd">Password</label>
+                <div class="reg-field-grow">
+                  <div class="pwd-input-wrap">
+                    <input type="password" id="signin_pwd" class="form-control form-control-sm" maxlength="128" autocomplete="current-password">
+                    <button type="button" class="pwd-toggle-inside signin-pwd-toggle" data-target="signin_pwd" title="Show password" aria-label="Show password"><i class="bi bi-eye"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end w-100 mt-1">
+                <button type="button" class="btn btn-link btn-sm p-0 swal-forgot-link">Forgot password?</button>
+              </div>
+            </div>
+        `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Sign in',
+                    cancelButtonText: 'Cancel',
+                    allowOutsideClick: false,
+                    focusConfirm: false,
+
+                    didOpen: () => {
+                        document.getElementById('signin_email').focus();
+                        document.querySelectorAll('.signin-pwd-toggle').forEach((btn) => {
+                            btn.addEventListener('click', () => {
+                                const id = btn.getAttribute('data-target');
+                                const input = document.getElementById(id);
+                                if (!input) return;
+                                const icon = btn.querySelector('i');
+                                const show = input.type === 'password';
+                                input.type = show ? 'text' : 'password';
+                                if (icon) {
+                                    icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+                                }
+                                btn.setAttribute('title', show ? 'Hide password' : 'Show password');
+                                btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+                            });
+                        });
+                        const forgot = document.querySelector('.swal-forgot-link');
+                        if (forgot) {
+                            forgot.addEventListener('click', (ev) => {
+                                ev.preventDefault();
+                                Swal.close();
+                                setTimeout(() => openForgotPasswordDialog(), 200);
+                            });
+                        }
+                    },
+
+                    preConfirm: () => {
+                        const email = document.getElementById('signin_email').value.trim();
+                        const pwd = document.getElementById('signin_pwd').value;
+                        if (!email || !pwd) {
+                            Swal.showValidationMessage('Email and password are required.');
+                            return false;
+                        }
+                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                            Swal.showValidationMessage('Enter a valid email.');
+                            return false;
+                        }
+
+                        Swal.showLoading();
+
+                        return fetch('login.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: new URLSearchParams({
+                                    email,
+                                    pwd
+                                }),
+                                credentials: 'same-origin',
+                            })
+                            .then((r) => r.json())
+                            .then((data) => {
+                                Swal.hideLoading();
+                                if (!data.ok) {
+                                    Swal.showValidationMessage(data.error || 'Sign-in failed.');
+                                    return false;
+                                }
+                                setSignedInView(data.email);
+                                loadUserProjectChecks();
+                                return true;
+                            })
+                            .catch(() => {
+                                Swal.hideLoading();
+                                Swal.showValidationMessage('Network error. Please try again.');
+                                return false;
+                            });
+                    },
+                });
+            }
+
+            function loadUserProjectChecks() {
+                document.querySelectorAll('.projectCheckbox').forEach((cb) => {
                     cb.checked = false;
                 });
-
                 fetch('populateCheckBoxes.php', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: 'cb=' + encodeURIComponent(theValue),
+                        credentials: 'same-origin',
                     })
                     .then((r) => r.json())
                     .then((ids) => {
                         ids.forEach((id) => {
-                            document.getElementById(id).checked = true;
+                            const el = document.getElementById(id);
+                            if (el) {
+                                el.checked = true;
+                            }
                         });
                     });
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('btnOpenSignIn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openSignInDialog();
+                });
+
+                const qs = new URLSearchParams(window.location.search);
+                if (qs.get('reset') === '1') {
+                    sweetAlerts('Password updated', 'You can sign in with your new password.', 'success');
+                    if (window.history.replaceState) {
+                        window.history.replaceState({}, '', window.location.pathname);
+                    }
+                }
+
+                if (document.body.dataset.loggedIn === '1') {
+                    loadUserProjectChecks();
+                }
+
+                document.getElementById('submitForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    if (document.body.dataset.loggedIn !== '1') {
+                        sweetAlerts('', 'Please sign in before submitting.', 'warning');
+                        return;
+                    }
+                    const formData = new FormData();
+                    document
+                        .querySelectorAll('.projectCheckbox:checked')
+                        .forEach((cb) => formData.append('items[]', cb.value));
+
+                    const response = await fetch('updateProjects.php', {
+                        method: 'POST',
+                        body: formData,
+                        credentials: 'same-origin',
+                    });
+
+                    const message = await response.text();
+                    sweetAlerts('Results', message, 'info');
+                });
+            });
         </script>
 
         <script>
@@ -267,20 +570,65 @@
                 event.preventDefault();
                 Swal.fire({
                     title: 'Register',
+                    width: '34rem',
                     html: `
-            <input type="email" id="email" class="swal2-input" placeholder="Email" maxlength="50">
-            <input type="text" id="fname" class="swal2-input" placeholder="First Name" maxlength="20">
-            <input type="text" id="lname" class="swal2-input" placeholder="Last Name" maxlength="30">
-            <input type="password" id="pwd" class="swal2-input" placeholder="Password (min 8 characters)" minlength="8" maxlength="128" autocomplete="new-password">
-            <input type="password" id="pwd2" class="swal2-input" placeholder="Confirm password" minlength="8" maxlength="128" autocomplete="new-password">
-            <br/><br/><br/>
-            <div id="outputTrue" style="color:green;"></div>
-            <div id="outputFalse" style="color:red;"></div>
+            <div class="swal-register-form px-1">
+              <div class="reg-field">
+                <label for="email">Email</label>
+                <div class="reg-field-grow"><input type="email" id="email" class="form-control form-control-sm" maxlength="50" autocomplete="email"></div>
+              </div>
+              <div class="reg-field">
+                <label for="fname">First name</label>
+                <div class="reg-field-grow"><input type="text" id="fname" class="form-control form-control-sm" maxlength="20" autocomplete="given-name"></div>
+              </div>
+              <div class="reg-field">
+                <label for="lname">Last name</label>
+                <div class="reg-field-grow"><input type="text" id="lname" class="form-control form-control-sm" maxlength="30" autocomplete="family-name"></div>
+              </div>
+              <div class="reg-field">
+                <label for="pwd">Password</label>
+                <div class="reg-field-grow">
+                  <div class="pwd-input-wrap">
+                    <input type="password" id="pwd" class="form-control form-control-sm" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Min. 8 characters">
+                    <button type="button" class="pwd-toggle-inside reg-pwd-toggle" data-target="pwd" title="Show password" aria-label="Show password"><i class="bi bi-eye"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="reg-field">
+                <label for="pwd2">Confirm</label>
+                <div class="reg-field-grow">
+                  <div class="pwd-input-wrap">
+                    <input type="password" id="pwd2" class="form-control form-control-sm" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Re-enter password">
+                    <button type="button" class="pwd-toggle-inside reg-pwd-toggle" data-target="pwd2" title="Show password" aria-label="Show password"><i class="bi bi-eye"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="outputTrue" style="color:green;margin-top:0.5rem;"></div>
+            <div id="outputFalse" style="color:red;margin-top:0.25rem;"></div>
         `,
                     showCancelButton: true,
                     confirmButtonText: 'Submit',
                     cancelButtonText: 'Cancel',
                     allowOutsideClick: false,
+
+                    didOpen: () => {
+                        document.querySelectorAll('.reg-pwd-toggle').forEach((btn) => {
+                            btn.addEventListener('click', () => {
+                                const id = btn.getAttribute('data-target');
+                                const input = document.getElementById(id);
+                                if (!input) return;
+                                const icon = btn.querySelector('i');
+                                const show = input.type === 'password';
+                                input.type = show ? 'text' : 'password';
+                                if (icon) {
+                                    icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+                                }
+                                btn.setAttribute('title', show ? 'Hide password' : 'Show password');
+                                btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+                            });
+                        });
+                    },
 
                     // ? THIS is the key: run fetch here and return false to keep dialog open
                     preConfirm: () => {
@@ -323,29 +671,15 @@
                                     lname,
                                     pwd,
                                 }),
+                                credentials: 'same-origin',
                             })
                             .then((r) => r.text())
                             .then((text) => {
-                                arr = [];
-                                // ? Update the divs INSIDE the SweetAlert2 dialog
                                 if (text.startsWith('t')) {
-                                    arr = text.split(':');
-
-                                    Swal.update({
-                                        showConfirmButton: false,
-                                        showCancelButton: false,
-                                    });
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: '',
-                                        cancelButtonText: 'Close',
-                                    });
-
-                                    updateEmailList(arr[1], email);
-                                    document.getElementById('outputTrue').innerHTML =
-                                        'Registration succeeded';
-                                    document.getElementById('outputFalse').innerHTML = '';
+                                    setSignedInView(email);
+                                    loadUserProjectChecks();
+                                    Swal.close();
+                                    sweetAlerts('Welcome', 'You are registered and signed in.', 'success');
                                 } else if (text === 'false') {
                                     document.getElementById('outputFalse').innerHTML =
                                         'Email already exists';
@@ -355,26 +689,10 @@
                                     document.getElementById('outputTrue').innerHTML = '';
                                 }
 
-                                // ? IMPORTANT: return false so SweetAlert2 does NOT close
                                 return false;
                             });
                     },
                 });
-
-                function updateEmailList(id, email) {
-                    const select = document.getElementById('email_list');
-                    const newOption = new Option(email, id);
-                    select.add(newOption);
-                    // Convert options to array
-                    const opts = Array.from(select.options);
-
-                    // Sort alphabetically by text
-                    opts.sort((a, b) => a.text.localeCompare(b.text));
-
-                    // Remove all and re-add in sorted order
-                    select.innerHTML = '';
-                    opts.forEach((opt) => select.add(opt));
-                }
             });
         </script>
 

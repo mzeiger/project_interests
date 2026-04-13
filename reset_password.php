@@ -60,10 +60,20 @@ $safeToken = htmlspecialchars($token, ENT_QUOTES, 'UTF-8');
             font-size: 1.1rem;
             pointer-events: none;
         }
+
+        .mhk-brand-logo {
+            max-height: 88px;
+            width: auto;
+            height: auto;
+        }
     </style>
 </head>
 
 <body>
+    <?php
+    require_once __DIR__ . '/brand_header.php';
+    mhk_brand_logo();
+    ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">

@@ -165,11 +165,21 @@ $signedInEmail = $loggedIn ? (string) ($_SESSION['person_email'] ?? '') : '';
         .swal-register-form .reg-field-grow .form-control {
             width: 100%;
         }
+
+        .mhk-brand-logo {
+            max-height: 88px;
+            width: auto;
+            height: auto;
+        }
     </style>
 
 </head>
 
 <body data-logged-in="<?php echo $loggedIn ? '1' : '0'; ?>">
+    <?php
+    require_once __DIR__ . '/brand_header.php';
+    mhk_brand_logo();
+    ?>
 
     <div class="mt-5" style="width: 80%; margin: 0 auto;">
         <h2 class="text-center mb-3">Select Projects</h2>

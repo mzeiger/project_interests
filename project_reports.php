@@ -15,10 +15,20 @@
         body {
             background-color: #f8f9fa;
         }
+
+        .mhk-brand-logo {
+            max-height: 88px;
+            width: auto;
+            height: auto;
+        }
     </style>
 </head>
 
 <body>
+    <?php
+    require_once __DIR__ . '/brand_header.php';
+    mhk_brand_logo();
+    ?>
 
     <form action="showProjectInterests.php" method="post" id="submitForm">
 

@@ -240,11 +240,21 @@
         </div>
 
         <script>
+            function toggleActionButtons(showButtons) {
+                const containerDisplay = showButtons ? "flex" : "none";
+                const buttonDisplay = showButtons ? "inline-block" : "none";
+                document.getElementById("action-buttons").style.display = containerDisplay;
+                document.getElementById("print-button").style.display = buttonDisplay;
+                document.getElementById("edit-button").style.display = buttonDisplay;
+            }
+
             document.addEventListener("DOMContentLoaded", async function () {
+                const selectElement = document.getElementById("email_list");
+                toggleActionButtons(selectElement.value !== "");
+
                 try {
                     const response = await fetch("../retrieve_select_dropdown.php");
                     const optionsHtml = await response.text();
-                    const selectElement = document.getElementById("email_list");
                     selectElement.innerHTML += optionsHtml;
                 } catch (error) {
                     console.error("Error loading dropdown options:", error);
@@ -288,8 +298,7 @@
                             body: "email=" + encodeURIComponent(email),
                         });
                         const interestsMessage = await interestsResponse.text();
-                        document.getElementById("print-button").style.display = "inline-block";
-                        document.getElementById("edit-button").style.display = "inline-block";
+                        toggleActionButtons(true);
 
                         if (interestsMessage.trim() === "") {
                             interestBlock = '<h1>Interests</h1>';
@@ -305,8 +314,7 @@
                     } else {
                         document.getElementById("applicant_info").innerHTML = "";
                         document.getElementById("applicant_interests").innerHTML = "";
-                        document.getElementById("print-button").style.display = "none";
-                        document.getElementById("edit-button").style.display = "none";
+                        toggleActionButtons(false);
 
                     }
                 });
@@ -324,8 +332,8 @@
         </div>
 
         <br />
-        <div class="no-print" style="justify-content:center; flex-direction:row; gap: 15px;">
-            <button id="print-button" onclick="window.print()">Print Page</button>
+        <div id="action-buttons" class="no-print" style="display:none; justify-content:center; flex-direction:row; gap: 15px;">
+            <button id="print-button" style="display:none;" onclick="window.print()">Print Page</button>
             <button id="edit-button" style="display:none;" onclick="editApplication()">Edit Application</button>
         </div>
 

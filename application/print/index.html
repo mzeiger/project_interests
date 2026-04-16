@@ -147,6 +147,17 @@
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
 
+        #action-buttons {
+            display: none;
+            justify-content: center;
+            flex-direction: row;
+            gap: 15px;
+        }
+
+        #action-buttons.is-visible {
+            display: flex;
+        }
+
         @media (max-width: 700px) {
             body {
                 width: 100%;
@@ -227,9 +238,10 @@
 <body>
     <div class="container">
         <div>
-            <a href="/index.php" class="d-inline-block text-decoration-none" title="Project Interests home">
-                <img src="../../images/mhk_std_logo_transparent%20640.png" alt="Monument Hill Kiwanis" class="logo" width="320" height="160" decoding="async" />
-            </a>
+            <!-- <a href="/index.php" class="d-inline-block text-decoration-none" title="Project Interests home"> -->
+            <img src="../images/mhklogo.png" alt="Monument Hill Kiwanis" class="logo" width="320" height="160"
+                decoding="async" />
+            <!-- </a> -->
         </div>
         <br />
         <div class="no-print">
@@ -241,11 +253,8 @@
 
         <script>
             function toggleActionButtons(showButtons) {
-                const containerDisplay = showButtons ? "flex" : "none";
-                const buttonDisplay = showButtons ? "inline-block" : "none";
-                document.getElementById("action-buttons").style.display = containerDisplay;
-                document.getElementById("print-button").style.display = buttonDisplay;
-                document.getElementById("edit-button").style.display = buttonDisplay;
+                const actionButtons = document.getElementById("action-buttons");
+                actionButtons.classList.toggle("is-visible", showButtons);
             }
 
             document.addEventListener("DOMContentLoaded", async function () {
@@ -332,9 +341,9 @@
         </div>
 
         <br />
-        <div id="action-buttons" class="no-print" style="display:none; justify-content:center; flex-direction:row; gap: 15px;">
-            <button id="print-button" style="display:none;" onclick="window.print()">Print Page</button>
-            <button id="edit-button" style="display:none;" onclick="editApplication()">Edit Application</button>
+        <div id="action-buttons" class="no-print">
+            <button id="print-button" onclick="window.print()">Print Page</button>
+            <button id="edit-button" onclick="editApplication()">Edit Application</button>
         </div>
 
         <script>

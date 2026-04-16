@@ -14,7 +14,7 @@ if ($rows == false) {
     return;
 }
 
-$txt = '<div class="text-center mb-3"><img src="assets/mhk_std_logo_transparent_640.png" alt="Monument Hill Kiwanis" style="max-height:64px;width:auto;height:auto;" width="320" height="160" decoding="async"></div>';
+$txt = '<div class="text-center mb-3"><img src="images/mhk_std_logo_transparent%20640.png" alt="Monument Hill Kiwanis" style="max-height:64px;width:auto;height:auto;" width="320" height="160" decoding="async"></div>';
 $txt .= '<div class="text-center mb-4">';
 $txt .= '<h4>Project: <span class="fw-bold">' . $rows[0]['projectName'] . '</span></h4>';
 $txt .= '<p>Project Head: ' . $rows[0]['projectHead'] . '</p>';

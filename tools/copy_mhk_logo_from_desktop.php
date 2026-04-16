@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /**
- * One-shot: copy the club logo from the Windows Desktop into assets/.
+ * One-shot: copy the club logo from the Windows Desktop into images/.
  * Run: php tools/copy_mhk_logo_from_desktop.php
  */
-$destDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'assets';
-$dest = $destDir . DIRECTORY_SEPARATOR . 'mhk_std_logo_transparent_640.png';
+$destDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'images';
+$dest = $destDir . DIRECTORY_SEPARATOR . 'mhk_std_logo_transparent 640.png';
 $home = getenv('USERPROFILE') ?: getenv('HOME') ?: '';
 $candidates = [];
 foreach (

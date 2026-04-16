@@ -10,7 +10,7 @@ function mhk_brand_logo_src(string $assetDirPrefix = ''): string
 {
     $p = str_replace('\\', '/', $assetDirPrefix);
     $p = rtrim($p, '/');
-    $rel = ($p === '' ? '' : $p . '/') . 'assets/mhk_std_logo_transparent_640.png';
+    $rel = ($p === '' ? '' : $p . '/') . 'images/mhk_std_logo_transparent%20640.png';
 
     return htmlspecialchars($rel, ENT_QUOTES, 'UTF-8');
 }

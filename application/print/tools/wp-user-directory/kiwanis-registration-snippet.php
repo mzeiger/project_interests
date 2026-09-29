@@ -357,13 +357,13 @@ function kr_render_registration_form() {
 			<fieldset class="kr-radio-group">
 				<legend>Honorary member <span class="req">*</span></legend>
 				<label><input type="radio" name="honorary_member" value="yes" required /> Yes</label>
-				<label><input type="radio" name="honorary_member" value="no" /> No</label>
+				<label><input type="radio" name="honorary_member" value="no" checked /> No</label>
 			</fieldset>
 
 			<fieldset class="kr-radio-group">
 				<legend>Life member <span class="req">*</span></legend>
 				<label><input type="radio" name="life_member" value="yes" required /> Yes</label>
-				<label><input type="radio" name="life_member" value="no" /> No</label>
+				<label><input type="radio" name="life_member" value="no" checked /> No</label>
 			</fieldset>
 		</fieldset>
 
@@ -385,8 +385,44 @@ function kr_render_registration_form() {
 	</form>
 
 	<style>
-		.kr-reg-wrap .kiwanis-registration-form { max-width: 560px; }
-		.kr-reg-wrap fieldset { margin: 1rem 0; padding: 1rem; border: 1px solid #ccc; }
+		.oxy-shortcode.my-register-shortcode {
+			width: 100%;
+			max-width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			box-sizing: border-box;
+		}
+		.kr-reg-wrap {
+			width: 100%;
+			max-width: 560px;
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: 0.75rem;
+			padding-right: 0.75rem;
+			box-sizing: border-box;
+		}
+		.kr-reg-wrap .kiwanis-registration-form {
+			width: 100%;
+			max-width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			box-sizing: border-box;
+		}
+		.kr-reg-wrap fieldset {
+			min-width: 0;
+			max-width: 100%;
+			margin: 1rem 0;
+			padding: 1rem;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+		}
+		.kr-reg-wrap input[type="text"],
+		.kr-reg-wrap input[type="email"],
+		.kr-reg-wrap select {
+			width: 100%;
+			max-width: 100%;
+			box-sizing: border-box;
+		}
 		.kr-reg-wrap legend { font-weight: 600; padding: 0 .35rem; }
 		.kr-reg-wrap .kr-radio-group label { margin-right: 1rem; }
 		.kr-reg-wrap .req { color: #b91c1c; }

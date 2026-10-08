@@ -30,22 +30,17 @@
             gap: 1%;
         }
 
-        .left_div {
-            /* height: 30%;
-            width: 20%; */
-            background-color: lightblue;
-            padding: 5px;
-            ;
-        }
-
+        .left_div,
         .right_div {
             /* height: 30%;
             width: 20%; */
             background-color: lightblue;
             padding: 5px;
+            margin-bottom: 10px;
+            ;
         }
 
-        .drop_down {
+        */ .drop_down {
             background-color: lightgray;
         }
 
